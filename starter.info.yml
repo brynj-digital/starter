@@ -1,0 +1,5 @@
+type: module
+name: Starter
+description: 'Starter module providing miscellaneous useful functionality.'
+package: Reckless
+core: 8.x

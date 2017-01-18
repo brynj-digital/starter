@@ -1,0 +1,17 @@
+services:
+  starter.kernelrequestsubscriber:
+    class: Drupal\starter\EventSubscriber\KernelRequestSubscriber
+    tags:
+    - { name: event_subscriber }
+    calls:
+      - ["getConfig", [@config.factory]]
+  starter.routesubscriber:
+    class: Drupal\starter\EventSubscriber\RouteSubscriber
+    tags:
+    - { name: event_subscriber }
+    calls:
+      - ["getConfig", [@config.factory]]
+  starter.twigextension:
+    class: Drupal\starter\Twig\TwigExtension
+    tags:
+      - { name: twig.extension }

@@ -1,0 +1,7 @@
+starter.settings:
+ path: '/admin/config/system/starter'
+ defaults:
+   _title: 'Starter settings'
+   _form: 'Drupal\starter\Form\StarterSettingsForm'
+ requirements:
+   _permission: 'administer starter'

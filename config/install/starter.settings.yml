@@ -1,0 +1,4 @@
+paths:
+  login: 'user/login'
+  logout: 'user/logout'
+  disable_access: 'disable-direct-access'
