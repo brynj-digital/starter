@@ -60,6 +60,10 @@ class TwigExtension extends \Twig_Extension {
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
       )),
+      new \Twig_SimpleFunction('get_taxonomy_terms', array($this, 'get_taxonomy_terms'), array(
+        'needs_environment' => TRUE,
+        'needs_context' => TRUE,
+      )),
     );
   }
 
@@ -192,5 +196,30 @@ class TwigExtension extends \Twig_Extension {
     $slug = implode('-', array_filter($words[0]));
 
     return $slug;
+  }
+
+  /**
+   * Returns an array of taxonomy term names and IDs from a taxonomy vocabulary name.
+   */
+  public function get_taxonomy_terms($taxonomy_name) {
+    $query = \Drupal::entityQuery('taxonomy_term')
+      ->condition('vid', 'location');
+    $tids = $query->execute();
+
+    // load the node objects from the ids#
+    $entity_manager = \Drupal::entityManager();
+    $term_storage = $entity_manager->getStorage('taxonomy_term');
+    $taxonomy_terms = $term_storage->loadMultiple($tids);
+
+    $taxonomy_array = [];
+
+    foreach($taxonomy_terms as $term) {
+      $taxonomy_array[] = [
+        'tid' => $term->get('tid')->value,
+        'name' => $term->get('name')->value,
+      ];
+    }
+
+    return $taxonomy_array;
   }
 }
