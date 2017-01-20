@@ -192,7 +192,7 @@ class TwigExtension extends \Twig_Extension {
 
     // Get the "words".  Split on anything that is not a unicode letter or number.
     // Periods are OK too.
-    preg_match_all('/[\p{L}\p{N}\.]+/u', $slug, $words);
+    preg_match_all('/[\p{L}\p{N}\._-]+/u', $slug, $words);
     $slug = implode('-', array_filter($words[0]));
 
     return $slug;
@@ -201,12 +201,11 @@ class TwigExtension extends \Twig_Extension {
   /**
    * Returns an array of taxonomy term names and IDs from a taxonomy vocabulary name.
    */
-  public function get_taxonomy_terms($taxonomy_name) {
+  public function get_taxonomy_terms(\Twig_Environment $env, array $context, $taxonomy_name) {
     $query = \Drupal::entityQuery('taxonomy_term')
-      ->condition('vid', 'location');
+      ->condition('vid', $taxonomy_name);
     $tids = $query->execute();
 
-    // load the node objects from the ids#
     $entity_manager = \Drupal::entityManager();
     $term_storage = $entity_manager->getStorage('taxonomy_term');
     $taxonomy_terms = $term_storage->loadMultiple($tids);
