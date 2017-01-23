@@ -200,8 +200,9 @@ class TwigExtension extends \Twig_Extension {
 
   /**
    * Returns an array of taxonomy term names and IDs from a taxonomy vocabulary name.
+   *
    */
-  public function get_taxonomy_terms(\Twig_Environment $env, array $context, $taxonomy_name) {
+  public function get_taxonomy_terms(\Twig_Environment $env, array $context, $taxonomy_name, array $other_fields = null) {
     $query = \Drupal::entityQuery('taxonomy_term')
       ->condition('vid', $taxonomy_name);
     $tids = $query->execute();
@@ -212,11 +213,21 @@ class TwigExtension extends \Twig_Extension {
 
     $taxonomy_array = [];
 
+    $i = 0;
     foreach($taxonomy_terms as $term) {
-      $taxonomy_array[] = [
+      $taxonomy_array[$i] = [
         'tid' => $term->get('tid')->value,
         'name' => $term->get('name')->value,
       ];
+
+      // Add extra fields if supplied.
+      if(! is_null($other_fields)) {
+        foreach($other_fields as $field) {
+          $taxonomy_array[$i][$field] = $term->get($field)->value;
+        }
+      }
+
+      $i++;
     }
 
     return $taxonomy_array;
