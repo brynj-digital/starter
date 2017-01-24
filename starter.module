@@ -2,6 +2,31 @@
 
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Database\Query\AlterableInterface;
+
+/**
+ * Implements hook_query_TAG_alter
+ * Exclude content type bundles from core Drupal search
+ */
+function starter_query_search_node_search_alter(AlterableInterface $query) {
+  $config = \Drupal::config('exclude_content_types.settings');
+  $bundles_config = $config->get('bundles');
+  $hidden_bundles = [];
+  if(!empty($bundles_config)) {
+    foreach ($bundles_config as $k => $v) {
+      // if the value is not 0, add it to the array
+      if ($v) {
+        $hidden_bundles[] = $k;
+      }
+    }
+  }
+
+  if (!empty($hidden_bundles)) {
+    // add the extra table to join based on config logic
+    $query->join('node', 'n2', 'n.nid = n2.nid');
+    $query->condition('n2.type', $hidden_bundles, 'NOT IN');
+  }
+}
 
 /**
 * Redirect drupal users to admin content page on login.

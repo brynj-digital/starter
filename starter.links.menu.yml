@@ -3,3 +3,10 @@ starter.settings:
   description: 'Configure the Starter module.'
   route_name: starter.settings
   parent: system.admin_config_system
+
+exclude_content_types.settings:
+  title: 'Exclude content types'
+  parent: system.admin_config_search
+  description: 'Content types to be excluded from Drupal core search.'
+  route_name: exclude_content_types.settings
+  menu_name: admin
