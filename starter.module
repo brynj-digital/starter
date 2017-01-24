@@ -9,7 +9,7 @@ use Drupal\Core\Database\Query\AlterableInterface;
  * Exclude content type bundles from core Drupal search
  */
 function starter_query_search_node_search_alter(AlterableInterface $query) {
-  $config = \Drupal::config('exclude_content_types.settings');
+  $config = \Drupal::config('starter.settings');
   $bundles_config = $config->get('bundles');
   $hidden_bundles = [];
   if(!empty($bundles_config)) {

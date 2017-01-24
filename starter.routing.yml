@@ -5,8 +5,7 @@ starter.settings:
    _form: 'Drupal\starter\Form\StarterSettingsForm'
  requirements:
    _permission: 'administer starter'
-
-exclude_content_types.settings:
+starter.settings.search:
  path: '/admin/config/search/exclude_content_types'
  defaults:
    _title: 'Exclude content types from search settings'

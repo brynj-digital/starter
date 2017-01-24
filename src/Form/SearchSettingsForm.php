@@ -29,7 +29,7 @@ class SearchSettingsForm extends ConfigFormBase {
    */
   protected function getEditableConfigNames() {
     return [
-      'exclude_content_types.settings',
+      'starter.settings',
     ];
   }
 
@@ -37,7 +37,7 @@ class SearchSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('exclude_content_types.settings');
+    $config = $this->config('starter.settings');
     $configured_bundles = $config->get('bundles') ? $config->get('bundles') : [];
 
     // get list of current Content Types
@@ -62,7 +62,7 @@ class SearchSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->config('exclude_content_types.settings')
+    $this->config('starter.settings')
       ->set('bundles', $form_state->getValue('bundles'))
       ->save();
 
