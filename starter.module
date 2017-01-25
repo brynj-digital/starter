@@ -80,6 +80,26 @@ function starter_entity_view_alter(array &$build, EntityInterface $entity, Entit
   }
 }
 
+/*
+ * Pre-populate form fields with request parameters
+ */
+function starter_entity_prepare_form($entity, $operation, $form_state) {
+
+  $config = \Drupal::config('starter.settings');
+  $prepopulate = $config->get('prepopulate');
+
+  if($prepopulate) {
+    $request = \Drupal::request();
+    $parameters = $request->query->all();
+
+    foreach($parameters as $parameter => $value) {
+      if($entity->hasField($parameter)) {
+        $entity->set($parameter, $value);
+      }
+    }
+  }
+}
+
 /**
  * Twig theme suggestions.
  */
@@ -110,11 +130,6 @@ function starter_theme_suggestions_region_alter(array &$suggestions, array $vari
 
   $suggestions[] = $suggestions[0].'__path_alias__'.$path_alias;
 }
-
-// View
-/*function starter_theme_suggestions_view_alter(array &$suggestions, array $variables, $hook) {
-
-}*/
 
 /**
  * End of Theme Suggestions.
