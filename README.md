@@ -28,7 +28,7 @@ The following twig extensions are provided:
 
  - `base_root()`: outputs the site base path
  - `display_menu($menu_name)`: renders the passed menu name
- - `place_block($block_name): renders the passed block name
+ - `place_block($block_name)`: renders the passed block name
  - `place_form($form_name)`: renders the passed form class name
  - `place_node($node_id, $display_type)`: renders the passed node identifier and display type
  - `place_view($view_name, $display_id)`: renders the passed view name and display identifier
