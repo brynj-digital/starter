@@ -9,3 +9,8 @@ starter.settings.search:
   description: 'Content types to be excluded from Drupal core search.'
   route_name: starter.settings.search
   menu_name: admin
+starter.permissions.copy:
+  title: 'Copy role permissions'
+  description: 'Duplicate the permissions of the selected role to another role.'
+  route_name: starter.permissions.copy
+  parent: user.admin_index

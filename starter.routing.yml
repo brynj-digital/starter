@@ -12,3 +12,10 @@ starter.settings.search:
    _form: 'Drupal\starter\Form\SearchSettingsForm'
  requirements:
    _permission: 'administer starter'
+starter.permissions.copy:
+ path: '/admin/config/people/copy_role_permissions'
+ defaults:
+   _title: 'Duplicate role permissions'
+   _form: 'Drupal\starter\Form\CopyRolePermissionsForm'
+ requirements:
+   _permission: 'administer starter'
