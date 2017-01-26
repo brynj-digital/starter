@@ -8,6 +8,9 @@ The module provides a lot of useful functionality, some of which needs configuri
 ### User login / logout paths
 The module allows the default user login / logout paths to be customised - useful for security on a Drupal site with no front-facing user roles.
 
+### Copy role permissions
+Allows a user role's permissions to by copied to another role, with the option of preserving any existing permissions in the destination role.
+
 ### Disable direct access of entities
 Many content types and taxonomy vocabulary terms should not be directly accessible, for example a banner content type that is used via an entry reference on another content type. This functionality allows entities with a specific path alias (configurable) - best set up via the pathauto module - to not be viewed directly (if attempted, a 404 response is generated).
 
