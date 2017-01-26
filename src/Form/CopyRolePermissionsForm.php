@@ -7,19 +7,13 @@
 namespace Drupal\starter\Form;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Form\ConfigFormBase;
+use Drupal\Core\Form\FormBase;
 
 /**
  * Configure site information settings for this site.
  */
-class CopyRolePermissionsForm extends ConfigFormBase {
+class CopyRolePermissionsForm extends FormBase {
 
-  /**
-   * {@inheritdoc}
-   */
-  protected function getEditableConfigNames() {
-    return ['starter.settings'];
-  }
 
   /**
    * {@inheritdoc}
@@ -57,6 +51,7 @@ class CopyRolePermissionsForm extends ConfigFormBase {
       '#empty_option' => '- None -',
       '#empty_value' => '',
       '#default_value' => null,
+      '#required' => true,
     );
 
     $form['permissions']['destination_role'] = array(
@@ -66,6 +61,7 @@ class CopyRolePermissionsForm extends ConfigFormBase {
       '#empty_option' => '- None -',
       '#empty_value' => '',
       '#default_value' => null,
+      '#required' => true,
     );
 
 
@@ -75,26 +71,13 @@ class CopyRolePermissionsForm extends ConfigFormBase {
       '#default_value' => true,
     );
 
-    return parent::buildForm($form, $form_state);
-  }
+    // Submit button.
+    $form['permissions']['submit'] = array(
+      '#type' => 'submit',
+      '#value' => $this->t('Copy role permissions'),
+    );
 
-  /**
-   * {@inheritdoc}
-   */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-
-    // Extract the values submitted by the user.
-    $values = $form_state->getValues();#
-
-    // check user has selected both source and destination roles
-    if(!empty($values['source_role']) && empty($values['destination_role'])) {
-      $form_state->setErrorByName('destination_role', $this->t('Please select a destination role.'));
-    }
-    elseif(empty($values['source_role']) && !empty($values['destination_role'])) {
-      $form_state->setErrorByName('source_role', $this->t('Please select a source role.'));
-    }
-
-    parent::validateForm($form, $form_state);
+    return $form;
   }
 
   /**
@@ -130,7 +113,7 @@ class CopyRolePermissionsForm extends ConfigFormBase {
       // save role with granted permissions
       $destination_role->save();
     }
-    parent::submitForm($form, $form_state);
+    drupal_set_message($this->t('Role "'.$values['source_role'].'" successfully copied to "'.$values['destination_role'].'"'));
+    return;
   }
-
 }
