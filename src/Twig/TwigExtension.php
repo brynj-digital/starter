@@ -12,7 +12,8 @@ class TwigExtension extends \Twig_Extension {
 
   public function getFilters() {
     return array(
-        'slugify' => new \Twig_Filter_Method($this, 'slugify')
+        'slugify' => new \Twig_Filter_Method($this, 'slugify'),
+        'debugstrip' => new \Twig_Filter_Method($this, 'debugstrip'),
     );
   }
 
@@ -199,8 +200,21 @@ class TwigExtension extends \Twig_Extension {
   }
 
   /**
-   * Returns an array of taxonomy term names and IDs from a taxonomy vocabulary name.
+   * Strips HTML tags from a string if Drupal is in development mode.
+   * We check if the site is in development mode by checking if 'ASSERT_ACTIVE' is true.
    *
+   * Returns a string.
+   */
+  public function debugstrip($string) {
+    if (assert_options(ASSERT_ACTIVE)) {
+      $string = trim(strip_tags($string));
+    }
+
+    return $string;
+  }
+
+  /**
+   * Returns an array of taxonomy term names and IDs from a taxonomy vocabulary name.
    */
   public function get_taxonomy_terms(\Twig_Environment $env, array $context, $taxonomy_name, array $other_fields = null) {
     $query = \Drupal::entityQuery('taxonomy_term')
