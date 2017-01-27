@@ -200,13 +200,13 @@ class TwigExtension extends \Twig_Extension {
   }
 
   /**
-   * Strips HTML tags from a string if Drupal is in development mode.
-   * We check if the site is in development mode by checking if 'ASSERT_ACTIVE' is true.
+   * Strips HTML tags from a string if Twig is in development mode.
    *
    * Returns a string.
    */
-  public function debugstrip($string) {
-    if (assert_options(ASSERT_ACTIVE)) {
+  public function debugstrip(\Twig_Environment $env, $string) {
+
+    if ($env->isDebug()) {
       $string = trim(strip_tags($string));
     }
 
