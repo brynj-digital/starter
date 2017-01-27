@@ -27,14 +27,21 @@ If enabled, passing a field name and value as a request parameter will pre-popul
 Several additional theme suggestions / hooks are added by the module, based on the path alias of the current request - these are added at the page and region levels.
 
 ### Twig extensions
-The following twig extensions are provided:
+The following Twig extensions are provided:
 
- - `base_root()`: outputs the site base path
- - `display_menu($menu_name)`: renders the passed menu name
- - `place_block($block_name)`: renders the passed block name
- - `place_form($form_name)`: renders the passed form class name
- - `place_node($node_id, $display_type)`: renders the passed node identifier and display type
- - `place_view($view_name, $display_id)`: renders the passed view name and display identifier
+ - `base_root()`: outputs the site base path.
+ - `display_menu($menu_name)`: renders the passed menu name.
+ - `place_block($block_name)`: renders the passed block name.
+ - `place_form($form_name)`: renders the passed form class name.
+ - `place_node($node_id, $display_type)`: renders the passed node identifier and display type.
+ - `place_view($view_name, $display_id)`: renders the passed view name and display identifier.
+ - `get_taxonomy_terms($taxonomy_name, array $extra_fields)`: returns an array of taxonomy terms from a taxonomy vocabulary name. You may also pass an array of the names of extra fields to pull through.
+
+### Twig filters
+The following Twig filters are provided:
+
+- `slugify`: makes a string URL-friendly.
+- `debugstrip`: strips HTML tags and trims a string whilst Drupal's in development mode. This stops you from having to litter your template files with `|striptags|trim` which will be ineffective when in production mode.
 
 ## Install
 Use composer: `composer require brynj-digital/starter`
