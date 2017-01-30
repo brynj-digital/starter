@@ -65,7 +65,7 @@ class TwigExtension extends \Twig_Extension {
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
       )),
-      new \Twig_SimpleFunction('get_active_theme', array($this, 'active_theme'), array(
+      new \Twig_SimpleFunction('get_active_theme', array($this, 'get_active_theme'), array(
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
       )),
