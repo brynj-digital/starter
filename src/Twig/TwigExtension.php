@@ -65,6 +65,10 @@ class TwigExtension extends \Twig_Extension {
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
       )),
+      new \Twig_SimpleFunction('active_theme', array($this, 'active_theme'), array(
+        'needs_environment' => TRUE,
+        'needs_context' => TRUE,
+      )),
     );
   }
 
@@ -245,5 +249,12 @@ class TwigExtension extends \Twig_Extension {
     }
 
     return $taxonomy_array;
+  }
+
+  /**
+   * Returns active theme name
+   */
+  public function active_theme(\Twig_Environment $env, array $context) {
+    return \Drupal::theme()->getActiveTheme()->getName();
   }
 }
