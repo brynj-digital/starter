@@ -36,6 +36,7 @@ The following Twig extensions are provided:
  - `place_node($node_id, $display_type)`: renders the passed node identifier and display type.
  - `place_view($view_name, $display_id)`: renders the passed view name and display identifier.
  - `get_taxonomy_terms($taxonomy_name, array $extra_fields)`: returns an array of taxonomy terms from a taxonomy vocabulary name. You may also pass an array of the names of extra fields to pull through.
+ - `get_active_theme()`: returns the active theme name
 
 ### Twig filters
 The following Twig filters are provided:
