@@ -89,7 +89,7 @@ function starter_entity_prepare_form($entity, $operation, $form_state) {
   $prepopulate = $config->get('prepopulate');
 
   // if pre-populate is enabled
-  if($prepopulate) {
+  if($prepopulate && method_exists($entity, 'hasField')) {
     // get current request
     $request = \Drupal::request();
     $parameters = $request->query->all();
@@ -97,7 +97,7 @@ function starter_entity_prepare_form($entity, $operation, $form_state) {
     // loop through parameters
     foreach($parameters as $parameter => $value) {
       // if parameter matches entity field, set the value
-      if(method_exists($entity, 'hasField') && $entity->hasField($parameter)) {
+      if($entity->hasField($parameter)) {
         $entity->set($parameter, $value);
       }
     }
