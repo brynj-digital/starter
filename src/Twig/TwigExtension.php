@@ -214,9 +214,9 @@ class TwigExtension extends \Twig_Extension {
    *
    * Returns a string.
    */
-  public function debugstrip(\Twig_Environment $env, $string) {
+  public function debugstrip($string) {
 
-    if ($env->isDebug()) {
+    if (\Drupal::service('twig')->isDebug()) {
       $string = trim(strip_tags($string));
     }
 
