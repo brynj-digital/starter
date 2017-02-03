@@ -13,74 +13,74 @@ class TwigExtension extends \Twig_Extension {
   }
 
   public function getFilters() {
-    return array(
-        'slugify' => new \Twig_Filter_Method($this, 'slugify'),
-        'debugstrip' => new \Twig_Filter_Method($this, 'debugstrip'),
-    );
+    return [
+      'slugify' => new \Twig_Filter_Method($this, 'slugify'),
+      'debugstrip' => new \Twig_Filter_Method($this, 'debugstrip'),
+    ];
   }
 
   /**
    * {@inheritdoc}
    */
   public function getFunctions() {
-    return array(
-      new \Twig_SimpleFunction('base_root', array($this, 'base_root'), array(
-        'is_safe' => array('html'),
+    return [
+      new \Twig_SimpleFunction('base_root', [$this, 'base_root'], [
+        'is_safe' => ['html'],
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
-      )),
-      new \Twig_SimpleFunction('display_menu', array($this, 'display_menu'), array(
-        'is_safe' => array('html'),
+      ]),
+      new \Twig_SimpleFunction('display_menu', [$this, 'display_menu'], [
+        'is_safe' => ['html'],
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
-      )),
-      new \Twig_SimpleFunction('place_block', array($this, 'place_block'), array(
-        'is_safe' => array('html'),
+      ]),
+      new \Twig_SimpleFunction('place_block', [$this, 'place_block'], [
+        'is_safe' => ['html'],
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
-      )),
-      new \Twig_SimpleFunction('place_form', array($this, 'place_form'), array(
-        'is_safe' => array('html'),
+      ]),
+      new \Twig_SimpleFunction('place_form', [$this, 'place_form'], [
+        'is_safe' => ['html'],
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
-      )),
-      new \Twig_SimpleFunction('place_node', array($this, 'place_node'), array(
-        'is_safe' => array('html'),
+      ]),
+      new \Twig_SimpleFunction('place_node', [$this, 'place_node'], [
+        'is_safe' => ['html'],
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
-      )),
-      new \Twig_SimpleFunction('place_view', array($this, 'place_view'), array(
-        'is_safe' => array('html'),
+      ]),
+      new \Twig_SimpleFunction('place_view', [$this, 'place_view'], [
+        'is_safe' => ['html'],
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
-      )),
-      new \Twig_SimpleFunction('static_block', array($this, 'static_block'), array(
-        'is_safe' => array('html'),
+      ]),
+      new \Twig_SimpleFunction('static_block', [$this, 'static_block'], [
+        'is_safe' => ['html'],
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
-      )),
-      new \Twig_SimpleFunction('themeurl', array($this, 'themeurl'), array(
+      ]),
+      new \Twig_SimpleFunction('themeurl', [$this, 'themeurl'], [
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
-      )),
-      new \Twig_SimpleFunction('get_taxonomy_terms', array($this, 'get_taxonomy_terms'), array(
+      ]),
+      new \Twig_SimpleFunction('get_taxonomy_terms', [$this, 'get_taxonomy_terms'], [
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
-      )),
-      new \Twig_SimpleFunction('get_active_theme', array($this, 'get_active_theme'), array(
+      ]),
+      new \Twig_SimpleFunction('get_active_theme', [$this, 'get_active_theme'], [
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
-      )),
-      new \Twig_SimpleFunction('get_image_path', array($this, 'get_image_path'), array(
+      ]),
+      new \Twig_SimpleFunction('get_image_path', [$this, 'get_image_path'], [
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
-      )),
-    );
+      ]),
+    ];
   }
 
   public function base_root(\Twig_Environment $env, array $context) {
-      global $base_root;
-      return $base_root;
+    global $base_root;
+    return $base_root;
   }
 
   /**
@@ -94,25 +94,25 @@ class TwigExtension extends \Twig_Extension {
   public function display_menu(\Twig_Environment $env, array $context, $menu_name) {
     $menu_tree = \Drupal::menuTree();
 
-      // Build the typical default set of menu tree parameters.
-      $parameters = $menu_tree->getCurrentRouteMenuTreeParameters($menu_name);
+    // Build the typical default set of menu tree parameters.
+    $parameters = $menu_tree->getCurrentRouteMenuTreeParameters($menu_name);
 
-      // Load the tree based on this set of parameters.
-      $tree = $menu_tree->load($menu_name, $parameters);
+    // Load the tree based on this set of parameters.
+    $tree = $menu_tree->load($menu_name, $parameters);
 
-      // Transform the tree using the manipulators you want.
-      $manipulators = array(
-        // Only show links that are accessible for the current user.
-        array('callable' => 'menu.default_tree_manipulators:checkAccess'),
-        // Use the default sorting of menu links.
-        array('callable' => 'menu.default_tree_manipulators:generateIndexAndSort'),
-      );
-      $tree = $menu_tree->transform($tree, $manipulators);
+    // Transform the tree using the manipulators you want.
+    $manipulators = [
+      // Only show links that are accessible for the current user.
+      ['callable' => 'menu.default_tree_manipulators:checkAccess'],
+      // Use the default sorting of menu links.
+      ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
+    ];
+    $tree = $menu_tree->transform($tree, $manipulators);
 
-      // Finally, build a renderable array from the transformed tree.
-      $menu = $menu_tree->build($tree);
+    // Finally, build a renderable array from the transformed tree.
+    $menu = $menu_tree->build($tree);
 
-      return  array('#markup' => drupal_render($menu));
+    return ['#markup' => drupal_render($menu)];
   }
 
   /**
@@ -140,17 +140,17 @@ class TwigExtension extends \Twig_Extension {
    *   An array of parameters passed to the template.
    */
   public function place_form(\Twig_Environment $env, array $context, $form_name) {
-      return \Drupal::formBuilder()->getForm($form_name);
+    return \Drupal::formBuilder()->getForm($form_name);
   }
 
   public function place_node(\Twig_Environment $env, array $context, $node_id, $node_view = 'full') {
-      $node = entity_load('node', $node_id);
-      if (empty($node)) {
-          return '';
-      }
-      else {
-          return node_view($node, $node_view);
-      }
+    $node = entity_load('node', $node_id);
+    if (empty($node)) {
+      return '';
+    }
+    else {
+      return node_view($node, $node_view);
+    }
   }
 
   public function place_view(\Twig_Environment $env, array $context, $name, $display_id = 'default') {
@@ -167,12 +167,12 @@ class TwigExtension extends \Twig_Extension {
    * @param array $context
    *   An array of parameters passed to the template.
    */
-  public function static_block(\Twig_Environment $env, array $context, $static_block_name, $variables = array()) {
-      return [
-          [
-              '#markup' => twig_render_template(\Drupal::theme()->getActiveTheme()->getPath().'/templates/static/'.$static_block_name.'.html.twig', array_merge($context, $variables, ['theme_hook_original' => '']))
-          ]
-      ];
+  public function static_block(\Twig_Environment $env, array $context, $static_block_name, $variables = []) {
+    return [
+      [
+        '#markup' => twig_render_template(\Drupal::theme()->getActiveTheme()->getPath().'/templates/static/'.$static_block_name.'.html.twig', array_merge($context, $variables, ['theme_hook_original' => '']))
+      ]
+    ];
   }
 
   /**
@@ -184,7 +184,7 @@ class TwigExtension extends \Twig_Extension {
    *   An array of parameters passed to the template.
    */
   public function themeurl(\Twig_Environment $env, array $context, $theme_asset) {
-      return '/'.\Drupal::theme()->getActiveTheme()->getPath().$theme_asset;
+    return '/'.\Drupal::theme()->getActiveTheme()->getPath().$theme_asset;
   }
 
   /**
@@ -211,13 +211,16 @@ class TwigExtension extends \Twig_Extension {
 
   /**
    * Strips HTML tags from a string if Twig is in development mode.
+   * Trims string regardless of mode.
    *
    * Returns a string.
    */
   public function debugstrip($string) {
-
     if (\Drupal::service('twig')->isDebug()) {
       $string = trim(strip_tags($string));
+    }
+    else {
+      $string = trim($string);
     }
 
     return $string;
@@ -276,8 +279,8 @@ class TwigExtension extends \Twig_Extension {
       return $image->entity->url();
     }
     else {
-       $image_style = ImageStyle::load($style);
-       return $image_style->buildUrl($image->entity->getFileUri());
+      $image_style = ImageStyle::load($style);
+      return $image_style->buildUrl($image->entity->getFileUri());
     }
   }
 }
