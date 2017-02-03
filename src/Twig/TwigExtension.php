@@ -1,6 +1,8 @@
 <?php
 namespace Drupal\starter\Twig;
 
+use Drupal\image\Entity\ImageStyle;
+
 class TwigExtension extends \Twig_Extension {
 
   /**
@@ -66,6 +68,10 @@ class TwigExtension extends \Twig_Extension {
         'needs_context' => TRUE,
       )),
       new \Twig_SimpleFunction('get_active_theme', array($this, 'get_active_theme'), array(
+        'needs_environment' => TRUE,
+        'needs_context' => TRUE,
+      )),
+      new \Twig_SimpleFunction('get_image_path', array($this, 'get_image_path'), array(
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
       )),
@@ -256,5 +262,22 @@ class TwigExtension extends \Twig_Extension {
    */
   public function get_active_theme(\Twig_Environment $env, array $context) {
     return \Drupal::theme()->getActiveTheme()->getName();
+  }
+
+  /**
+   * Returns image path, optionally for a specific image size
+   */
+  public function get_image_path(\Twig_Environment $env, array $context, $image, $style=false) {
+    // object structure different, depending on if node.field_name or content.field_name is passed
+    if(isset($image['#items'])) {
+      $image = $image['#items'];
+    }
+    if(!$style) {
+      return $image->entity->url();
+    }
+    else {
+       $image_style = ImageStyle::load($style);
+       return $image_style->buildUrl($image->entity->getFileUri());
+    }
   }
 }
