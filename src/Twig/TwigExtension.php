@@ -271,10 +271,18 @@ class TwigExtension extends \Twig_Extension {
    * Returns image path, optionally for a specific image size
    */
   public function get_image_path(\Twig_Environment $env, array $context, $image, $style=false) {
-    // object structure different, depending on if node.field_name or content.field_name is passed
+    // Check if $image is present
+    if(is_null($image)) {
+      return false;
+    }
+
+    // Object structure different, depending on if node.field_name or content.field_name is passed
     if(isset($image['#items'])) {
       $image = $image['#items'];
+    } else {
+      return false;
     }
+
     if(!$style) {
       return $image->entity->url();
     }
