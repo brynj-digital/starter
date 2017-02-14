@@ -4,7 +4,7 @@
   "description": "A utility module for Drupal 8, adding useful generic functionality",
   "keywords": [
     "drupal",
-    "drupal 8"
+    "drupal-8"
   ],
   "homepage": "https://github.com/brynj-digital/starter",
   "license": "GPL-2.0+",
