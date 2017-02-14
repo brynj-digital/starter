@@ -29,21 +29,22 @@ Several additional theme suggestions / hooks are added by the module, based on t
 ### Twig extensions
 The following Twig extensions are provided:
 
- - `base_root()`: outputs the site base path.
- - `display_menu($menu_name)`: renders the passed menu name.
- - `place_block($block_name)`: renders the passed block name.
- - `place_form($form_name)`: renders the passed form class name.
- - `place_node($node_id, $display_type)`: renders the passed node identifier and display type.
- - `place_view($view_name, $display_id)`: renders the passed view name and display identifier.
- - `get_taxonomy_terms($taxonomy_name, array $extra_fields)`: returns an array of taxonomy terms from a taxonomy vocabulary name. You may also pass an array of the names of extra fields to pull through.
- - `get_active_theme()`: returns the active theme name
- - `get_image_path($image, $style)`: returns the image path for the passed image field, optionally for a specific image style 
+ - `base_root()`: Returns the site base path.
+ - `display_menu($menu_name)`: Renders the passed menu name.
+ - `place_block($block_name)`: Renders the passed block name.
+ - `place_form($form_name)`: Renders the passed form class name.
+ - `place_node($node_id, $display_type)`: Renders the passed node identifier and display type.
+ - `place_view($view_name, $display_id)`: Renders the passed view name and display identifier.
+ - `get_taxonomy_terms($taxonomy_name, array $extra_fields)`: Returns an array of taxonomy terms from a taxonomy vocabulary name. You may also pass an array of the names of extra fields to pull through.
+ - `get_active_theme()`: Returns the active theme name.
+ - `get_image_path($image, $style)`: Returns the image path for the passed image field, optionally for a specific image style.
+ - `get_url_segment($segment, $underscores = false)`: Returns a segment of the current request's URL. Pass true as the second parameter to convert dashes to underscores.
 
 ### Twig filters
 The following Twig filters are provided:
 
-- `slugify`: makes a string URL-friendly.
-- `debugstrip`: strips HTML tags and trims a string whilst Drupal's in development mode. This stops you from having to litter your template files with `|striptags|trim` which will be ineffective when in production mode.
+- `slugify`: Makes a string URL-friendly.
+- `debugstrip`: Strips HTML tags and trims a string whilst Drupal's in development mode. This stops you from having to litter your template files with `|striptags|trim` which will be ineffective when in production mode.
 
 ## Install
 Use composer: `composer require brynj-digital/starter`
