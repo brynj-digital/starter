@@ -75,6 +75,10 @@ class TwigExtension extends \Twig_Extension {
         'needs_environment' => TRUE,
         'needs_context' => TRUE,
       ]),
+      new \Twig_SimpleFunction('get_path_segment', [$this, 'get_path_segment'], [
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
+      ]),
     ];
   }
 
@@ -153,10 +157,20 @@ class TwigExtension extends \Twig_Extension {
     }
   }
 
+  /**
+   * Place a view in a Twig template with an optional display mode.
+   *
+   * Returns rendered view if exists, if not, null.
+   */
   public function place_view(\Twig_Environment $env, array $context, $name, $display_id = 'default') {
     $drupal = \Drupal::service('renderer');
     $view = views_embed_view($name, $display_id);
-    return $drupal->render($view);
+
+    if(! is_null($view)) {
+      return $drupal->render($view);
+    }
+
+    return null;
   }
 
   /**
@@ -279,7 +293,8 @@ class TwigExtension extends \Twig_Extension {
     // Object structure different, depending on if node.field_name or content.field_name is passed
     if(isset($image['#items'])) {
       $image = $image['#items'];
-    } else {
+    }
+    else {
       return false;
     }
 
@@ -289,6 +304,30 @@ class TwigExtension extends \Twig_Extension {
     else {
       $image_style = ImageStyle::load($style);
       return $image_style->buildUrl($image->entity->getFileUri());
+    }
+  }
+
+  /**
+   * Get path segment from current request.
+   * @param int $segment - starting from 1 being the first section of the url after the first forward slash
+   * @param bool $underscores - convert dashes to underscores
+   * @return string of path segment or null
+   */
+  public function get_path_segment($segment, $underscores = false) {
+    // Reduce segment index by 1 to account for array key starting with 0
+    $segment--;
+    $path = \Drupal::request()->getPathInfo();
+    $segments = explode('/', trim($path, '/'));
+
+    if(isset($segments[$segment])) {
+      if($underscores) {
+        return str_replace('-', '_', $segments[$segment]);
+      }
+
+      return $segments[$segment];
+    }
+    else {
+      return null;
     }
   }
 }
