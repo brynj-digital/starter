@@ -294,6 +294,9 @@ class TwigExtension extends \Twig_Extension {
     if(isset($image['#items'])) {
       $image = $image['#items'];
     }
+    elseif(isset($image['#item'])) {
+      $image = $image['#item'];
+    }
 
     if(!$style) {
       return $image->entity->url();
