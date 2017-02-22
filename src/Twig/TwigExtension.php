@@ -79,6 +79,10 @@ class TwigExtension extends \Twig_Extension {
         'needs_environment' => FALSE,
         'needs_context' => FALSE,
       ]),
+      new \Twig_SimpleFunction('get_current_path', [$this, 'get_current_path'], [
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
+      ]),
     ];
   }
 
@@ -329,5 +333,14 @@ class TwigExtension extends \Twig_Extension {
     else {
       return null;
     }
+  }
+
+  /**
+   * Returns the current path.
+   */
+  public function get_current_path() {
+    $current_path = \Drupal::service('path.current')->getPath();
+
+    return $current_path;
   }
 }
