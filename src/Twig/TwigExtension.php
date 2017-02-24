@@ -132,10 +132,19 @@ class TwigExtension extends \Twig_Extension {
    *   An array of parameters passed to the template.
    */
   public function place_block(\Twig_Environment $env, array $context, $block_name) {
-    $block_manager = \Drupal::service('plugin.manager.block');
-    $config = [];
-    $plugin_block = $block_manager->createInstance($block_name, $config);
-    $render = $plugin_block->build();
+    $render = false;
+    // try to load as plugin block
+    $plugin_block = \Drupal::service('plugin.manager.block')->createInstance($block_name, $config = []);
+    if(!empty($plugin_block) && $plugin_block->getPluginId() != 'broken') {
+      $render = $plugin_block->build();
+    }
+    // get as entity block
+    else {
+      $block = \Drupal\block\Entity\Block::load($block_name);
+      if(!empty($block)) {
+        $render = \Drupal::entityTypeManager()->getViewBuilder('block')->view($block);
+      }
+    }
     return $render;
   }
 
@@ -294,12 +303,17 @@ class TwigExtension extends \Twig_Extension {
       return false;
     }
 
-    // Object structure different, depending on if node.field_name or content.field_name is passed
+    // Object structure different, depending on if node.field_name, content.field_name or row._entity.field_name is passed
     if(isset($image['#items'])) {
       $image = $image['#items'];
     }
     elseif(isset($image['#item'])) {
       $image = $image['#item'];
+    }
+
+    // Check $image->entity is set
+    if(!isset($image->entity)) {
+      return false;
     }
 
     if(!$style) {
