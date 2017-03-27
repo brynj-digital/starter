@@ -83,6 +83,10 @@ class TwigExtension extends \Twig_Extension {
         'needs_environment' => FALSE,
         'needs_context' => FALSE,
       ]),
+      new \Twig_SimpleFunction('get_theme_setting', [$this, 'get_theme_setting'], [
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
+      ]),
     ];
   }
 
@@ -356,5 +360,12 @@ class TwigExtension extends \Twig_Extension {
     $current_path = \Drupal::service('path.current')->getPath();
 
     return $current_path;
+  }
+
+  /**
+   * Returns a theme setting.
+   */
+  public function get_theme_setting($theme_setting) {
+    return theme_get_setting($theme_setting);
   }
 }
