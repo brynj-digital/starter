@@ -39,6 +39,8 @@ The following Twig extensions are provided:
  - `get_active_theme()`: Returns the active theme name.
  - `get_image_path($image, $style)`: Returns the image path for the passed image field, optionally for a specific image style.
  - `get_url_segment($segment, $underscores = false)`: Returns a segment of the current request's URL. Pass true as the second parameter to convert dashes to underscores.
+ - `get_current_path()`: Returns the current path.
+ - `get_theme_setting($theme_setting)`: Returns a theme setting's value.
 
 ### Twig filters
 The following Twig filters are provided:
