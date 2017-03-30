@@ -1,6 +1,7 @@
 <?php
 namespace Drupal\starter\Twig;
 
+use Drupal\file\Entity\File;
 use Drupal\image\Entity\ImageStyle;
 
 class TwigExtension extends \Twig_Extension {
@@ -307,25 +308,43 @@ class TwigExtension extends \Twig_Extension {
       return false;
     }
 
-    // Object structure different, depending on if node.field_name, content.field_name or row._entity.field_name is passed
-    if(isset($image['#items'])) {
-      $image = $image['#items'];
+    // have we only got an array with image target_id?
+    if(!empty($image['target_id'])) {
+      $file = File::load($image['target_id']);
     }
-    elseif(isset($image['#item'])) {
-      $image = $image['#item'];
+    // we've got an object
+    else {
+      // Object structure different, depending on if node.field_name, content.field_name or row._entity.field_name is passed
+      if(isset($image['#items'])) {
+        $image = $image['#items'];
+      }
+      elseif(isset($image['#item'])) {
+        $image = $image['#item'];
+      }
+
+      // Check $image->entity is set
+      if(!isset($image->entity)) {
+        return false;
+      }
+      else {
+        $file = $image->entity;
+      }
     }
 
-    // Check $image->entity is set
-    if(!isset($image->entity)) {
-      return false;
-    }
-
-    if(!$style) {
-      return $image->entity->url();
+    // we've got a valid image file
+    if(!empty($file)) {
+      // return original image file
+      if(!$style) {
+        return $file->url();
+      }
+      // return specific image size
+      else {
+        $image_style = ImageStyle::load($style);
+        return $image_style->buildUrl($file->getFileUri());
+      }
     }
     else {
-      $image_style = ImageStyle::load($style);
-      return $image_style->buildUrl($image->entity->getFileUri());
+      return false;
     }
   }
 
