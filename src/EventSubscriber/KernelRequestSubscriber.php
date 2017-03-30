@@ -51,9 +51,17 @@ class KernelRequestSubscriber implements EventSubscriberInterface {
     	$alias = \Drupal::service('path.alias_manager')->getAliasByPath($current_path);
     	$alias_parts = explode('/', trim($alias,'/'));
       // this content should not be viewed directly
-    	if(!empty($alias_parts) && $alias_parts[0] == $this->config->get('paths.disable_access') || (\Drupal::service('path.matcher')->isFrontPage() && $event->getRequest()->getPathInfo() !== '/')) {
+    	if(!empty($alias_parts) && $alias_parts[0] == $this->config->get('paths.disable_access')) {
     		throw new NotFoundHttpException();
     	}
+
+      // redirect front page url to site root, if it's not ajax request
+      if(\Drupal::service('path.matcher')->isFrontPage() && $event->getRequest()->getPathInfo() !== '/' && !$event->getRequest()->isXmlHttpRequest()) {
+        $response = new Response();
+        $response->headers->set('Location', '/');
+        $response->setStatusCode(Response::HTTP_PERMANENTLY_REDIRECT);
+        $event->setResponse($response);
+      }
   	}
 
     // Redirect any pages with aliases to the alias
