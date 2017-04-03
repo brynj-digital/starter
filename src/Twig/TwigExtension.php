@@ -377,8 +377,9 @@ class TwigExtension extends \Twig_Extension {
    */
   public function get_current_path() {
     $current_path = \Drupal::service('path.current')->getPath();
+    $result = \Drupal::service('path.alias_manager')->getAliasByPath($current_path);
 
-    return $current_path;
+    return $result;
   }
 
   /**
