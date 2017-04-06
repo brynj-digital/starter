@@ -41,6 +41,7 @@ The following Twig extensions are provided:
  - `get_url_segment($segment, $underscores = false)`: Returns a segment of the current request's URL. Pass true as the second parameter to convert dashes to underscores.
  - `get_current_path()`: Returns the current path.
  - `get_theme_setting($theme_setting)`: Returns a theme setting's value.
+ - `get_variable($variable)`: Returns a $_GET variable.
 
 ### Twig filters
 The following Twig filters are provided:
