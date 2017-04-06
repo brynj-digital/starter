@@ -397,6 +397,6 @@ class TwigExtension extends \Twig_Extension {
    * Return a $_GET variable.
    */
   public function get_variable($variable) {
-    return $_GET[$variable];
+    return \Drupal::request()->get($variable);
   }
 }
