@@ -88,6 +88,10 @@ class TwigExtension extends \Twig_Extension {
         'needs_environment' => FALSE,
         'needs_context' => FALSE,
       ]),
+      new \Twig_SimpleFunction('get_variable', [$this, 'get_variable'], [
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
+      ]),
     ];
   }
 
@@ -387,5 +391,12 @@ class TwigExtension extends \Twig_Extension {
    */
   public function get_theme_setting($theme_setting) {
     return theme_get_setting($theme_setting);
+  }
+
+  /**
+   * Return a $_GET variable.
+   */
+  public function get_variable($variable) {
+    return $_GET[$variable];
   }
 }
