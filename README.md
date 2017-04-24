@@ -30,18 +30,19 @@ Several additional theme suggestions / hooks are added by the module, based on t
 The following Twig extensions are provided:
 
  - `base_root()`: Returns the site base path.
- - `display_menu($menu_name)`: Renders the passed menu name.
- - `place_block($block_name)`: Renders the passed block name.
- - `place_form($form_name)`: Renders the passed form class name.
- - `place_node($node_id, $display_type)`: Renders the passed node identifier and display type.
- - `place_view($view_name, $display_id)`: Renders the passed view name and display identifier.
- - `get_taxonomy_terms($taxonomy_name, array $extra_fields)`: Returns an array of taxonomy terms from a taxonomy vocabulary name. You may also pass an array of the names of extra fields to pull through.
+ - `display_menu(string $menu_name)`: Renders the passed menu name.
+ - `place_block(string $block_name)`: Renders the passed block name.
+ - `place_form(string $form_name)`: Renders the passed form class name.
+ - `place_node(int $node_id, string $display_type)`: Renders the passed node identifier and display type.
+ - `place_view(string $view_name, int $display_id)`: Renders the passed view name and display identifier.
+ - `get_taxonomy_terms(string $taxonomy_name, array $extra_fields)`: Returns an array of taxonomy terms from a taxonomy vocabulary name. You may also pass an array of the names of extra fields to pull through.
  - `get_active_theme()`: Returns the active theme name.
- - `get_image_path($image, $style)`: Returns the image path for the passed image field, optionally for a specific image style.
- - `get_url_segment($segment, $underscores = false)`: Returns a segment of the current request's URL. Pass true as the second parameter to convert dashes to underscores.
+ - `get_image_path(string $image, string $style)`: Returns the image path for the passed image field, optionally for a specific image style.
+ - `get_url_segment(int $segment, bool underscores = false)`: Returns a segment of the current request's URL. Pass true as the second parameter to convert dashes to underscores.
  - `get_current_path()`: Returns the current path.
- - `get_theme_setting($theme_setting)`: Returns a theme setting's value.
- - `get_variable($variable)`: Returns a $_GET variable.
+ - `get_theme_setting(string $theme_setting)`: Returns a theme setting's value.
+ - `get_variable(string $variable)`: Returns a $_GET variable.
+ - `place_paragraphs(string $field_name, obj $node = null)`: Returns a rendered 'Paragraphs' field. The node will be automatically grabbed from the current route unless you specify otherwise.
 
 ### Twig filters
 The following Twig filters are provided:
