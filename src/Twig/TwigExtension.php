@@ -27,70 +27,74 @@ class TwigExtension extends \Twig_Extension {
     return [
       new \Twig_SimpleFunction('base_root', [$this, 'base_root'], [
         'is_safe' => ['html'],
-        'needs_environment' => TRUE,
-        'needs_context' => TRUE,
+        'needs_environment' => true,
+        'needs_context' => true,
       ]),
       new \Twig_SimpleFunction('display_menu', [$this, 'display_menu'], [
         'is_safe' => ['html'],
-        'needs_environment' => TRUE,
-        'needs_context' => TRUE,
+        'needs_environment' => true,
+        'needs_context' => true,
       ]),
       new \Twig_SimpleFunction('place_block', [$this, 'place_block'], [
         'is_safe' => ['html'],
-        'needs_environment' => TRUE,
-        'needs_context' => TRUE,
+        'needs_environment' => true,
+        'needs_context' => true,
       ]),
       new \Twig_SimpleFunction('place_form', [$this, 'place_form'], [
         'is_safe' => ['html'],
-        'needs_environment' => TRUE,
-        'needs_context' => TRUE,
+        'needs_environment' => true,
+        'needs_context' => true,
       ]),
       new \Twig_SimpleFunction('place_node', [$this, 'place_node'], [
         'is_safe' => ['html'],
-        'needs_environment' => TRUE,
-        'needs_context' => TRUE,
+        'needs_environment' => true,
+        'needs_context' => true,
       ]),
       new \Twig_SimpleFunction('place_view', [$this, 'place_view'], [
         'is_safe' => ['html'],
-        'needs_environment' => TRUE,
-        'needs_context' => TRUE,
+        'needs_environment' => false,
+        'needs_context' => false,
       ]),
       new \Twig_SimpleFunction('static_block', [$this, 'static_block'], [
         'is_safe' => ['html'],
-        'needs_environment' => TRUE,
-        'needs_context' => TRUE,
+        'needs_environment' => true,
+        'needs_context' => true,
       ]),
       new \Twig_SimpleFunction('themeurl', [$this, 'themeurl'], [
-        'needs_environment' => TRUE,
-        'needs_context' => TRUE,
+        'needs_environment' => true,
+        'needs_context' => true,
       ]),
       new \Twig_SimpleFunction('get_taxonomy_terms', [$this, 'get_taxonomy_terms'], [
-        'needs_environment' => TRUE,
-        'needs_context' => TRUE,
+        'needs_environment' => true,
+        'needs_context' => true,
       ]),
       new \Twig_SimpleFunction('get_active_theme', [$this, 'get_active_theme'], [
-        'needs_environment' => TRUE,
-        'needs_context' => TRUE,
+        'needs_environment' => true,
+        'needs_context' => true,
       ]),
       new \Twig_SimpleFunction('get_image_path', [$this, 'get_image_path'], [
-        'needs_environment' => TRUE,
-        'needs_context' => TRUE,
+        'needs_environment' => true,
+        'needs_context' => true,
       ]),
       new \Twig_SimpleFunction('get_path_segment', [$this, 'get_path_segment'], [
-        'needs_environment' => FALSE,
-        'needs_context' => FALSE,
+        'needs_environment' => false,
+        'needs_context' => false,
       ]),
       new \Twig_SimpleFunction('get_current_path', [$this, 'get_current_path'], [
-        'needs_environment' => FALSE,
-        'needs_context' => FALSE,
+        'needs_environment' => false,
+        'needs_context' => false,
       ]),
       new \Twig_SimpleFunction('get_theme_setting', [$this, 'get_theme_setting'], [
-        'needs_environment' => FALSE,
-        'needs_context' => FALSE,
+        'needs_environment' => false,
+        'needs_context' => false,
       ]),
       new \Twig_SimpleFunction('get_variable', [$this, 'get_variable'], [
-        'needs_environment' => FALSE,
-        'needs_context' => FALSE,
+        'needs_environment' => false,
+        'needs_context' => false,
+      ]),
+      new \Twig_SimpleFunction('place_paragraphs', [$this, 'place_paragraphs'], [
+        'needs_environment' => false,
+        'needs_context' => false,
       ]),
     ];
   }
@@ -181,14 +185,15 @@ class TwigExtension extends \Twig_Extension {
 
   /**
    * Place a view in a Twig template with an optional display mode.
-   *
+   * Optionally allows parameters to be passed
    * Returns rendered view if exists, if not, null.
    */
-  public function place_view(\Twig_Environment $env, array $context, $name, $display_id = 'default') {
-    $drupal = \Drupal::service('renderer');
-    $view = views_embed_view($name, $display_id);
+  public function place_view($name, $display_id = 'default', $args = []) {
+    $params = array_merge([$name, $display_id], $args);
+    $view = call_user_func_array('views_embed_view', $params);
 
     if(! is_null($view)) {
+      $drupal = \Drupal::service('renderer');
       return $drupal->render($view);
     }
 
@@ -399,4 +404,50 @@ class TwigExtension extends \Twig_Extension {
   public function get_variable($variable) {
     return \Drupal::request()->get($variable);
   }
+
+  /**
+   * Return a rendered 'Paragraphs' field.
+   */
+  public function place_paragraphs($field_name, $node = null) {
+
+    // Check if the 'Paragraphs' module exists.
+    if(! \Drupal::moduleHandler()->moduleExists('paragraphs')) {
+      return false;
+    }
+
+    // If $node isn't passed, let's try and get it ourselves.
+    if($node === null) {
+      $node = \Drupal::routeMatch()->getParameter('node');
+    }
+
+    if ($node) {
+      if($node->hasField($field_name)) {
+        $field_definitions = $node->getFieldDefinitions();
+        $field_config = $field_definitions[$field_name];
+
+        $config = [
+          'field_definition' => $field_config,
+          'settings' => $field_config->getSettings(),
+          'label' => $field_config->label(),
+          'view_mode' => 'full',
+          'third_party_settings' => [],
+        ];
+
+        $formatter = \Drupal\entity_reference_revisions\Plugin\Field\FieldFormatter\EntityReferenceRevisionsEntityFormatter::create(\Drupal::getContainer(), $config, NULL, NULL);
+
+        // Required by EntityReferenceFormatterBase
+        // getEntitiesToView(EntityReferenceFieldItemListInterface $items, $langcode)
+        $parts = $node->get($field_name);
+        foreach ($parts as $delta => $item) {
+          $item->_loaded = true;
+        }
+
+        $language_manager = \Drupal::service('language_manager');
+        $languageId = $language_manager->getCurrentLanguage()->getId();
+        $elements = $formatter->viewElements($parts, $languageId);
+
+        return $elements;
+      }
+    }
+   }
 }
