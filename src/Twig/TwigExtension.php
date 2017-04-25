@@ -320,7 +320,6 @@ class TwigExtension extends \Twig_Extension {
 
     // have we been passed the file id?
     if(is_numeric($image) && (int) $image > 0) {
-      kint($image); exit;
       $file = File::load($image);
     }
     // have we only got an array with image target_id?
