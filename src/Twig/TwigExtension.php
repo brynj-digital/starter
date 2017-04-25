@@ -312,13 +312,18 @@ class TwigExtension extends \Twig_Extension {
    * Returns image path, optionally for a specific image size
    */
   public function get_image_path(\Twig_Environment $env, array $context, $image, $style=false) {
+
     // Check if $image is present
     if(is_null($image)) {
       return false;
     }
 
+    // have we been passed the file id?
+    if(is_numeric($image) && (int) $image > 0) {
+      $file = File::load($image);
+    }
     // have we only got an array with image target_id?
-    if(!empty($image['target_id'])) {
+    elseif(!empty($image['target_id'])) {
       $file = File::load($image['target_id']);
     }
     // we've got an object
@@ -333,6 +338,7 @@ class TwigExtension extends \Twig_Extension {
 
       // Check $image->entity is set
       if(!isset($image->entity)) {
+        echo 'failed'; exit;
         return false;
       }
       else {
