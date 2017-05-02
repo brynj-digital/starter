@@ -96,6 +96,10 @@ class TwigExtension extends \Twig_Extension {
         'needs_environment' => false,
         'needs_context' => false,
       ]),
+      new \Twig_SimpleFunction('dd', [$this, 'dd'], [
+        'needs_environment' => false,
+        'needs_context' => false,
+      ]),
     ];
   }
 
@@ -454,5 +458,18 @@ class TwigExtension extends \Twig_Extension {
         return $elements;
       }
     }
-   }
+  }
+
+  /**
+   * More efficient than kint(), and will exit script.
+   */
+  public function dd($data, $exit = true) {
+    echo dump($data);
+
+    if($exit) {
+      return exit;
+    }
+
+    return false;
+  }
 }
