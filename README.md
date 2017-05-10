@@ -30,6 +30,7 @@ Several additional theme suggestions / hooks are added by the module, based on t
 The following Twig extensions are provided:
 
  - `base_root()`: Returns the site base path.
+ - `get_theme_url()`: Returns the current theme URL.
  - `display_menu(string $menu_name)`: Renders the passed menu name.
  - `place_block(string $block_name)`: Renders the passed block name.
  - `place_form(string $form_name)`: Renders the passed form class name.
