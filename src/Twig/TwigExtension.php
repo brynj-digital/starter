@@ -477,6 +477,10 @@ class TwigExtension extends \Twig_Extension {
    */
   public function get_first_instance($fields, $rows) {
 
+    if(empty($rows)) {
+      return null;
+    }
+
     foreach($rows[0]['#rows'] as $row) {
       $entity = $row['#row']->_entity;
 
