@@ -60,7 +60,7 @@ class TwigExtension extends \Twig_Extension {
         'needs_environment' => true,
         'needs_context' => true,
       ]),
-      new \Twig_SimpleFunction('themeurl', [$this, 'themeurl'], [
+      new \Twig_SimpleFunction('get_theme_url', [$this, 'themeurl'], [
         'needs_environment' => true,
         'needs_context' => true,
       ]),
@@ -97,6 +97,10 @@ class TwigExtension extends \Twig_Extension {
         'needs_context' => false,
       ]),
       new \Twig_SimpleFunction('dd', [$this, 'dd'], [
+        'needs_environment' => false,
+        'needs_context' => false,
+      ]),
+      new \Twig_SimpleFunction('get_first_instance', [$this, 'get_first_instance'], [
         'needs_environment' => false,
         'needs_context' => false,
       ]),
@@ -221,15 +225,10 @@ class TwigExtension extends \Twig_Extension {
   }
 
   /**
-   * Creates a theme URL
-   *
-   * @param Twig_Environment $env
-   *   The twig environment instance.
-   * @param array $context
-   *   An array of parameters passed to the template.
+   * Gets the current theme URL.
    */
-  public function themeurl(\Twig_Environment $env, array $context, $theme_asset) {
-    return '/'.\Drupal::theme()->getActiveTheme()->getPath().$theme_asset;
+  public function get_theme_url() {
+    return '/'.\Drupal::theme()->getActiveTheme()->getPath();
   }
 
   /**
@@ -471,5 +470,27 @@ class TwigExtension extends \Twig_Extension {
     }
 
     return false;
+  }
+
+  /**
+   * Returns the first instance of a field's value from an array of fields.
+   */
+  public function get_first_instance($fields, $rows) {
+
+    foreach($rows[0]['#rows'] as $row) {
+      $entity = $row['#row']->_entity;
+
+      foreach($fields as $field) {
+        if($entity->hasField($field)) {
+          $value = $entity->get($field)->getValue();
+
+          if(! empty($value)) {
+            return $value;
+          }
+        }
+      }
+    }
+
+    return null;
   }
 }
