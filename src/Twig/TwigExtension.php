@@ -17,6 +17,7 @@ class TwigExtension extends \Twig_Extension {
     return [
       'slugify' => new \Twig_Filter_Method($this, 'slugify'),
       'debugstrip' => new \Twig_Filter_Method($this, 'debugstrip'),
+      'unescape' => new \Twig_Filter_Method($this, 'unescape'),
     ];
   }
 
@@ -103,11 +104,7 @@ class TwigExtension extends \Twig_Extension {
       new \Twig_SimpleFunction('get_first_instance', [$this, 'get_first_instance'], [
         'needs_environment' => false,
         'needs_context' => false,
-      ]),
-      new \Twig_SimpleFunction('unescape', array($this, 'unescape'), array(
-        'needs_environment' => false,
-        'needs_context' => false,
-      )),
+      ])
     ];
   }
 
