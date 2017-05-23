@@ -104,6 +104,10 @@ class TwigExtension extends \Twig_Extension {
         'needs_environment' => false,
         'needs_context' => false,
       ]),
+      new \Twig_SimpleFunction('unescape', array($this, 'unescape'), array(
+        'needs_environment' => false,
+        'needs_context' => false,
+      )),
     ];
   }
 
@@ -494,7 +498,13 @@ class TwigExtension extends \Twig_Extension {
         }
       }
     }
-
     return null;
+  }
+
+  /*
+   * Html entity decode the passed string
+   */
+  public function unescape($html) {
+      return html_entity_decode($html);
   }
 }
