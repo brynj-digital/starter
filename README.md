@@ -51,7 +51,7 @@ The following Twig filters are provided:
 
 - `slugify`: Makes a string URL-friendly.
 - `debugstrip`: Strips HTML tags and trims a string whilst Drupal's in development mode. This stops you from having to litter your template files with `|striptags|trim` which will be ineffective when in production mode.
- - `unescape($html)`: decodes html entities in the passed string.
+ - `unescape`: decodes html entities in the passed string.
 
 ## Install
 Use composer: `composer require brynj-digital/starter`
