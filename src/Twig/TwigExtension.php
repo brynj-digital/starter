@@ -56,11 +56,6 @@ class TwigExtension extends \Twig_Extension {
         'needs_environment' => false,
         'needs_context' => false,
       ]),
-      new \Twig_SimpleFunction('static_block', [$this, 'static_block'], [
-        'is_safe' => ['html'],
-        'needs_environment' => true,
-        'needs_context' => true,
-      ]),
       new \Twig_SimpleFunction('get_theme_url', [$this, 'themeurl'], [
         'needs_environment' => true,
         'needs_context' => true,
@@ -102,6 +97,10 @@ class TwigExtension extends \Twig_Extension {
         'needs_context' => false,
       ]),
       new \Twig_SimpleFunction('get_first_instance', [$this, 'get_first_instance'], [
+        'needs_environment' => false,
+        'needs_context' => false,
+      ]),
+      new \Twig_SimpleFunction('safe_merge', [$this, 'safe_merge'], [
         'needs_environment' => false,
         'needs_context' => false,
       ])
@@ -207,22 +206,6 @@ class TwigExtension extends \Twig_Extension {
     }
 
     return null;
-  }
-
-  /**
-   * Loads a static template block.
-   *
-   * @param Twig_Environment $env
-   *   The twig environment instance.
-   * @param array $context
-   *   An array of parameters passed to the template.
-   */
-  public function static_block(\Twig_Environment $env, array $context, $static_block_name, $variables = []) {
-    return [
-      [
-        '#markup' => twig_render_template(\Drupal::theme()->getActiveTheme()->getPath().'/templates/static/'.$static_block_name.'.html.twig', array_merge($context, $variables, ['theme_hook_original' => '']))
-      ]
-    ];
   }
 
   /**
@@ -503,5 +486,27 @@ class TwigExtension extends \Twig_Extension {
    */
   public function unescape($html) {
       return html_entity_decode($html);
+  }
+
+  /*
+   * Merges arrays or objects - source object / array is appended to destination object / array
+  */
+  public function safe_merge($destination, $source) {
+
+    if(!is_object($source)) {
+      $source = (object) $source;
+    }
+    $object_properties = get_object_vars($source);
+    if(is_object($destination)) {
+      foreach($object_properties as $property => $value) {
+        $destination->{$property} = $value;
+      }
+    }
+    else {
+      foreach($object_properties as $property => $value) {
+        $destination[$property] = $value;
+      }
+    }
+    return $destination;
   }
 }
