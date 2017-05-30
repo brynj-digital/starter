@@ -341,6 +341,12 @@ class TwigExtension extends \Twig_Extension {
       // return specific image size
       else {
         $image_style = ImageStyle::load($style);
+
+        // if the image style doesn't exist, return the normal image
+        if(is_null($image_style)) {
+          return $file->url();
+        }
+
         return $image_style->buildUrl($file->getFileUri());
       }
     }
