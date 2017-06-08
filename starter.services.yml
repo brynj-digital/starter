@@ -5,6 +5,12 @@ services:
     - { name: event_subscriber }
     calls:
       - ["getConfig", [@config.factory]]
+  starter.kernelresponsesubscriber:
+    class: Drupal\starter\EventSubscriber\KernelResponseSubscriber
+    tags:
+    - { name: event_subscriber }
+    calls:
+      - ["getConfig", [@config.factory]]
   starter.routesubscriber:
     class: Drupal\starter\EventSubscriber\RouteSubscriber
     tags:

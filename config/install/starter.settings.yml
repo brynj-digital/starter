@@ -4,3 +4,5 @@ paths:
   disable_access: 'disable-direct-access'
 bundles: []
 prepopulate: false
+term_autocomplete_display_vocabulary: false
+node_autocomplete_display_bundle: false

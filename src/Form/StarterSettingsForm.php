@@ -82,6 +82,18 @@ class StarterSettingsForm extends ConfigFormBase {
       '#default_value' => $starter_config->get('prepopulate'),
     );
 
+    $form['form']['term_autocomplete_display_vocabulary'] = array(
+      '#type' => 'checkbox',
+      '#title' => $this->t('Append vocabulary label to term reference autocomplete field results'),
+      '#default_value' => $starter_config->get('term_autocomplete_display_vocabulary'),
+    );
+
+    $form['form']['node_autocomplete_display_bundle'] = array(
+      '#type' => 'checkbox',
+      '#title' => $this->t('Append bundle label to node reference autocomplete field results'),
+      '#default_value' => $starter_config->get('node_autocomplete_display_bundle'),
+    );
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -102,6 +114,8 @@ class StarterSettingsForm extends ConfigFormBase {
       ->set('paths.logout', $form_state->getValue('logout_path'))
       ->set('paths.disable_access', str_replace('/','-',$form_state->getValue('disable_access_path')))
       ->set('prepopulate', $form_state->getValue('prepopulate'))
+      ->set('term_autocomplete_display_vocabulary', $form_state->getValue('term_autocomplete_display_vocabulary'))
+      ->set('node_autocomplete_display_bundle', $form_state->getValue('node_autocomplete_display_bundle'))
       ->save();
 
     parent::submitForm($form, $form_state);
