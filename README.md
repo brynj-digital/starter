@@ -23,6 +23,12 @@ Allows specific content types to be excluded from the Drupal core search.
 ### Pre-populate form fields via request parameters
 If enabled, passing a field name and value as a request parameter will pre-populate an entity form, if a matching field is found.
 
+### Append vocabulary label to term reference autocomplete field results
+If enabled, an autocomplete taxonomy term reference field's results will have the vocabulary appended in square brackets for each match.
+
+### Append bundle label to node reference autocomplete field results
+If enabled, an autocomplete node reference field's results will have the bundle appended in square brackets for each match.
+
 ### Twig theme suggestions
 Several additional theme suggestions / hooks are added by the module, based on the path alias of the current request - these are added at the page and region levels.
 
