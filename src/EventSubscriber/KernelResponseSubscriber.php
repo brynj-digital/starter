@@ -57,7 +57,7 @@ class KernelResponseSubscriber implements EventSubscriberInterface {
 
             $return_values[] = [
               'value' => $value->value,
-              'label' => $value->label.' ['.$vocabularies[$term->getVocabularyId()]->label().']',
+              'label' => $value->label.(!empty($term) ? ' ['.$vocabularies[$term->getVocabularyId()]->label().']' : ''),
             ];
         }
       }
@@ -72,7 +72,7 @@ class KernelResponseSubscriber implements EventSubscriberInterface {
 
             $return_values[] = [
               'value' => $value->value,
-              'label' => $value->label.' ['.$node->type->entity->label().']',
+              'label' => $value->label.(!empty($node) ? ' ['.$node->type->entity->label().']' : ''),
             ];
         }
       }
