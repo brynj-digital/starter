@@ -220,19 +220,24 @@ class TwigExtension extends \Twig_Extension {
    * Inspiration from https://gist.github.com/boboldehampsink/7354431
    */
   public function slugify($slug) {
-    // Remove HTML tags
-    $slug = preg_replace('/<(.*?)>/u', '', $slug);
+    // Check if path auto is installed
+    if(\Drupal::moduleHandler()->moduleExists('pathauto')) {
+      $slug = \Drupal::service('pathauto.alias_cleaner')->cleanString($slug);
+    } else {
+      // Remove HTML tags
+      $slug = preg_replace('/<(.*?)>/u', '', $slug);
 
-    // Remove inner-word punctuation.
-    $slug = preg_replace('/[\'"‘’“”]/u', '', $slug);
+      // Remove inner-word punctuation.
+      $slug = preg_replace('/[\'"‘’“”]/u', '', $slug);
 
-    // Make it lowercase
-    $slug = mb_strtolower($slug, 'UTF-8');
+      // Make it lowercase
+      $slug = mb_strtolower($slug, 'UTF-8');
 
-    // Get the "words".  Split on anything that is not a unicode letter or number.
-    // Periods are OK too.
-    preg_match_all('/[\p{L}\p{N}\._-]+/u', $slug, $words);
-    $slug = implode('-', array_filter($words[0]));
+      // Get the "words".  Split on anything that is not a unicode letter or number.
+      // Periods are OK too.
+      preg_match_all('/[\p{L}\p{N}\._-]+/u', $slug, $words);
+      $slug = implode('-', array_filter($words[0]));
+    }
 
     return $slug;
   }
