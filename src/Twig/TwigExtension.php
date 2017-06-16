@@ -56,7 +56,7 @@ class TwigExtension extends \Twig_Extension {
         'needs_environment' => false,
         'needs_context' => false,
       ]),
-      new \Twig_SimpleFunction('get_theme_url', [$this, 'themeurl'], [
+      new \Twig_SimpleFunction('get_theme_url', [$this, 'get_theme_url'], [
         'needs_environment' => true,
         'needs_context' => true,
       ]),
