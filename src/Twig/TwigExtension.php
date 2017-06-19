@@ -31,7 +31,12 @@ class TwigExtension extends \Twig_Extension {
         'needs_environment' => true,
         'needs_context' => true,
       ]),
-      new \Twig_SimpleFunction('display_menu', [$this, 'display_menu'], [
+      new \Twig_SimpleFunction('display_menu', [$this, 'place_menu'], [
+        'is_safe' => ['html'],
+        'needs_environment' => true,
+        'needs_context' => true,
+      ]),
+      new \Twig_SimpleFunction('place_menu', [$this, 'place_menu'], [
         'is_safe' => ['html'],
         'needs_environment' => true,
         'needs_context' => true,
@@ -120,7 +125,7 @@ class TwigExtension extends \Twig_Extension {
    * @param array $context
    *   An array of parameters passed to the template.
    */
-  public function display_menu(\Twig_Environment $env, array $context, $menu_name) {
+  public function place_menu(\Twig_Environment $env, array $context, $menu_name) {
     $menu_tree = \Drupal::menuTree();
 
     // Build the typical default set of menu tree parameters.
