@@ -97,7 +97,7 @@ function starter_entity_prepare_form($entity, $operation, $form_state) {
     // loop through parameters
     foreach($parameters as $parameter => $value) {
       // if parameter matches entity field, set the value
-      if($entity->hasField($parameter)) {
+      if((strpos($parameter,'field_')===0 || in_array($parameter,['title', 'body'])) && $entity->hasField($parameter)) {
         $entity->set($parameter, $value);
       }
     }
