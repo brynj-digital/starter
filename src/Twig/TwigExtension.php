@@ -108,7 +108,11 @@ class TwigExtension extends \Twig_Extension {
       new \Twig_SimpleFunction('safe_merge', [$this, 'safe_merge'], [
         'needs_environment' => false,
         'needs_context' => false,
-      ])
+      ]),
+      new \Twig_SimpleFunction('get_node', [$this, 'get_node'], [
+        'needs_environment' => false,
+        'needs_context' => false,
+      ]),      
     ];
   }
 
@@ -524,5 +528,12 @@ class TwigExtension extends \Twig_Extension {
       }
     }
     return $destination;
+  }
+
+  /**
+   * Return the node via the current path.
+   */
+  public function get_node() {
+    return \Drupal::routeMatch()->getParameter('node');
   }
 }
