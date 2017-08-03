@@ -29,19 +29,6 @@ function starter_query_search_node_search_alter(AlterableInterface $query) {
 }
 
 /**
-* Redirect drupal users to admin content page on login.
-*/
-function starter_user_login($account) {
-
-  // make sure we're not dealing with login from password reset
-  if(strpos(\Drupal::request()->getPathInfo(),'user/reset')===false) {
-    $response = new Symfony\Component\HttpFoundation\RedirectResponse('/admin/content');
-    $response->send();
-    exit;
-  }
-}
-
-/**
  * Implements hook_page_attachments_alter().
  */
 function starter_page_attachments_alter(array &$attachments) {
