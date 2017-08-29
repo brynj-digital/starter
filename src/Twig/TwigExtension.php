@@ -51,6 +51,11 @@ class TwigExtension extends \Twig_Extension {
         'needs_environment' => true,
         'needs_context' => true,
       ]),
+      new \Twig_SimpleFunction('place_webform', [$this, 'place_webform'], [
+        'is_safe' => ['html'],
+        'needs_environment' => false,
+        'needs_context' => false,
+      ]),
       new \Twig_SimpleFunction('place_node', [$this, 'place_node'], [
         'is_safe' => ['html'],
         'needs_environment' => true,
@@ -198,6 +203,20 @@ class TwigExtension extends \Twig_Extension {
     else {
       return node_view($node, $node_view);
     }
+  }
+  
+  /**
+   * Place a Webform submission form.
+   */
+  public function place_webform($webform_name) {
+    if(\Drupal::moduleHandler()->moduleExists('webform')) {
+      $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webform_name);
+      $webform = $webform->getSubmissionForm();
+    } else {
+      $webform = null;
+    }
+
+    return $webform;
   }
 
   /**
