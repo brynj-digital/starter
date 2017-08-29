@@ -40,6 +40,7 @@ The following Twig extensions are provided:
  - `display_menu(string $menu_name)`: Renders the passed menu name.
  - `place_block(string $block_name)`: Renders the passed block name.
  - `place_form(string $form_name)`: Renders the passed form class name.
+ - `place_webform(string $webform_name)`: Renders the passed webform.
  - `place_node(int $node_id, string $display_type)`: Renders the passed node identifier and display type.
  - `place_view(string $view_name, int $display_id)`: Renders the passed view name and display identifier.
  - `get_taxonomy_terms(string $taxonomy_name, array $extra_fields)`: Returns an array of taxonomy terms from a taxonomy vocabulary name. You may also pass an array of the names of extra fields to pull through.
