@@ -4,19 +4,19 @@ services:
     tags:
     - { name: event_subscriber }
     calls:
-      - ["getConfig", [@config.factory]]
+      - ["getConfig", ['@config.factory']]
   starter.kernelresponsesubscriber:
     class: Drupal\starter\EventSubscriber\KernelResponseSubscriber
     tags:
     - { name: event_subscriber }
     calls:
-      - ["getConfig", [@config.factory]]
+      - ["getConfig", ['@config.factory']]
   starter.routesubscriber:
     class: Drupal\starter\EventSubscriber\RouteSubscriber
     tags:
     - { name: event_subscriber }
     calls:
-      - ["getConfig", [@config.factory]]
+      - ["getConfig", ['@config.factory']]
   starter.twigextension:
     class: Drupal\starter\Twig\TwigExtension
     tags:
