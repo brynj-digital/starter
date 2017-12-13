@@ -117,7 +117,11 @@ class TwigExtension extends \Twig_Extension {
       new \Twig_SimpleFunction('get_node', [$this, 'get_node'], [
         'needs_environment' => false,
         'needs_context' => false,
-      ]),      
+      ]),
+      new \Twig_SimpleFunction('set_meta', [$this, 'set_meta'], [
+        'needs_environment' => false,
+        'needs_context' => false,
+      ]),     
     ];
   }
 
@@ -554,5 +558,27 @@ class TwigExtension extends \Twig_Extension {
    */
   public function get_node() {
     return \Drupal::routeMatch()->getParameter('node');
+  }
+
+  /**
+   * Set meta tags.
+   */
+  public function set_meta($attributes, $id = null) {
+
+    if(is_null($id)) {
+      $id = uniqid();
+    }
+    
+    $meta = [
+      '#tag' => 'meta',
+      '#attributes' => $attributes,
+    ];
+
+    $html_head[]['#attached']['html_head'][] = [$meta, $id];
+
+    $drupal = \Drupal::service('renderer');
+    $drupal->render($html_head);
+
+    return true;
   }
 }
