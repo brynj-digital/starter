@@ -52,6 +52,7 @@ The following Twig extensions are provided:
  - `get_variable(string $variable)`: Returns a $_GET variable.
  - `place_paragraphs(string $field_name, obj $node = null)`: Returns a rendered 'Paragraphs' field. The node will be automatically grabbed from the current route unless you specify otherwise.
  - `dd($data, bool $exit = true)`: Dumps out `$data` and exits the script, unless a second parameter of false is passed.
+ - `set_meta({key: value, key: value}[, id])`: Sets meta tags, pass a second parameter to replace an already existing meta tag.
 
 ### Twig filters
 The following Twig filters are provided:
