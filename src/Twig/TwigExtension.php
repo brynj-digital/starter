@@ -121,7 +121,11 @@ class TwigExtension extends \Twig_Extension {
       new \Twig_SimpleFunction('set_meta', [$this, 'set_meta'], [
         'needs_environment' => false,
         'needs_context' => false,
-      ]),     
+      ]),
+      new \Twig_SimpleFunction('get_host', [$this, 'get_host'], [
+        'needs_environment' => false,
+        'needs_context' => false,
+      ]),    
     ];
   }
 
@@ -580,5 +584,22 @@ class TwigExtension extends \Twig_Extension {
     $drupal->render($html_head);
 
     return true;
+  }
+
+  /**
+   * Return the protocol and server name.
+   */
+  public function get_host($protocol = true) {
+    if($protocol) {
+      if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+        $host = 'https://';
+      } else {
+        $host = 'http://';
+      }      
+    }
+
+    $host .= $_SERVER['HTTP_HOST'];
+
+    return $host;
   }
 }
