@@ -28,8 +28,8 @@ class TwigExtension extends \Twig_Extension {
     return [
       new \Twig_SimpleFunction('base_root', [$this, 'base_root'], [
         'is_safe' => ['html'],
-        'needs_environment' => true,
-        'needs_context' => true,
+        'needs_environment' => false,
+        'needs_context' => false,
       ]),
       new \Twig_SimpleFunction('display_menu', [$this, 'place_menu'], [
         'is_safe' => ['html'],
@@ -122,15 +122,26 @@ class TwigExtension extends \Twig_Extension {
         'needs_environment' => false,
         'needs_context' => false,
       ]),
-      new \Twig_SimpleFunction('get_host', [$this, 'get_host'], [
+      new \Twig_SimpleFunction('get_root', [$this, 'get_root'], [
         'needs_environment' => false,
         'needs_context' => false,
-      ]),    
+      ]),      
     ];
   }
 
-  public function base_root(\Twig_Environment $env, array $context) {
+  /**
+   * Alias of get_root().
+   */
+  public function base_root() {
+    return $this->get_root();
+  }
+
+  /**
+   * Return the $base_root.
+   */
+  public function get_root() {
     global $base_root;
+
     return $base_root;
   }
 
@@ -584,22 +595,5 @@ class TwigExtension extends \Twig_Extension {
     $drupal->render($html_head);
 
     return true;
-  }
-
-  /**
-   * Return the protocol and server name.
-   */
-  public function get_host($protocol = true) {
-    if($protocol) {
-      if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
-        $host = 'https://';
-      } else {
-        $host = 'http://';
-      }      
-    }
-
-    $host .= $_SERVER['HTTP_HOST'];
-
-    return $host;
   }
 }
