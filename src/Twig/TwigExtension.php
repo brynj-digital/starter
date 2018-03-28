@@ -125,8 +125,19 @@ class TwigExtension extends \Twig_Extension {
       new \Twig_SimpleFunction('get_root', [$this, 'get_root'], [
         'needs_environment' => false,
         'needs_context' => false,
-      ]),      
+      ]),
+      new \Twig_SimpleFunction('get_node_path', [$this, 'get_node_path'], [
+        'needs_environment' => false,
+        'needs_context' => false,
+      ]),
     ];
+  }
+  
+  /**
+   * Return a path alias from a node ID.
+   */
+  public function get_node_path($nid) {
+    return \Drupal::service('path.alias_manager')->getAliasByPath('/node/'.$nid);
   }
 
   /**
