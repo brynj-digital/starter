@@ -373,16 +373,16 @@ class TwigExtension extends \Twig_Extension {
       $file = File::load($image);
     }
     // have we only got an array with image target_id?
-    elseif(!empty($image['target_id'])) {
+    elseif(is_array($image) && !empty($image['target_id'])) {
       $file = File::load($image['target_id']);
     }
     // we've got an object
     else {
       // Object structure different, depending on if node.field_name, content.field_name or row._entity.field_name is passed
-      if(isset($image['#items'])) {
+      if(is_array($image) && isset($image['#items'])) {
         $image = $image['#items'];
       }
-      elseif(isset($image['#item'])) {
+      elseif(is_array($image) && ($image['#item'])) {
         $image = $image['#item'];
       }
 
