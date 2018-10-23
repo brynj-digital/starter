@@ -382,7 +382,7 @@ class TwigExtension extends \Twig_Extension {
       if(is_array($image) && isset($image['#items'])) {
         $image = $image['#items'];
       }
-      elseif(is_array($image) && ($image['#item'])) {
+      elseif(is_array($image) && isset($image['#item'])) {
         $image = $image['#item'];
       }
 
