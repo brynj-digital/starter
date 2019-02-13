@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\starter\Form\SearchSettingsForm.
- */
-
 namespace Drupal\starter\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
@@ -40,7 +35,7 @@ class SearchSettingsForm extends ConfigFormBase {
     $config = $this->config('starter.settings');
     $configured_bundles = $config->get('bundles') ? $config->get('bundles') : [];
 
-    // get list of current Content Types
+    // Get list of current Content Types.
     $node_bundles = \Drupal::service('entity.manager')->getStorage('node_type')->loadMultiple();
 
     $options = [];
@@ -48,12 +43,12 @@ class SearchSettingsForm extends ConfigFormBase {
       $options[$bundle->id()] = $bundle->label();
     }
 
-    $form['bundles'] = array(
+    $form['bundles'] = [
       '#type' => 'checkboxes',
       '#options' => $options,
       '#title' => t('Content types to exclude from Drupal core search'),
       '#default_value' => $configured_bundles,
-    );
+    ];
 
     return parent::buildForm($form, $form_state);
   }

@@ -1,9 +1,15 @@
 <?php
+
 namespace Drupal\starter\Twig;
 
+use Drupal\entity_reference_revisions\Plugin\Field\FieldFormatter\EntityReferenceRevisionsEntityFormatter;
+use Drupal\block\Entity\Block;
 use Drupal\file\Entity\File;
 use Drupal\image\Entity\ImageStyle;
 
+/**
+ *
+ */
 class TwigExtension extends \Twig_Extension {
 
   /**
@@ -13,6 +19,9 @@ class TwigExtension extends \Twig_Extension {
     return 'starter';
   }
 
+  /**
+   *
+   */
   public function getFilters() {
     return [
       'slugify' => new \Twig_Filter_Method($this, 'slugify'),
@@ -28,116 +37,116 @@ class TwigExtension extends \Twig_Extension {
     return [
       new \Twig_SimpleFunction('base_root', [$this, 'base_root'], [
         'is_safe' => ['html'],
-        'needs_environment' => false,
-        'needs_context' => false,
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
       ]),
       new \Twig_SimpleFunction('display_menu', [$this, 'place_menu'], [
         'is_safe' => ['html'],
-        'needs_environment' => true,
-        'needs_context' => true,
+        'needs_environment' => TRUE,
+        'needs_context' => TRUE,
       ]),
       new \Twig_SimpleFunction('place_menu', [$this, 'place_menu'], [
         'is_safe' => ['html'],
-        'needs_environment' => true,
-        'needs_context' => true,
+        'needs_environment' => TRUE,
+        'needs_context' => TRUE,
       ]),
       new \Twig_SimpleFunction('place_block', [$this, 'place_block'], [
         'is_safe' => ['html'],
-        'needs_environment' => true,
-        'needs_context' => true,
+        'needs_environment' => TRUE,
+        'needs_context' => TRUE,
       ]),
       new \Twig_SimpleFunction('place_form', [$this, 'place_form'], [
         'is_safe' => ['html'],
-        'needs_environment' => true,
-        'needs_context' => true,
+        'needs_environment' => TRUE,
+        'needs_context' => TRUE,
       ]),
       new \Twig_SimpleFunction('place_webform', [$this, 'place_webform'], [
         'is_safe' => ['html'],
-        'needs_environment' => false,
-        'needs_context' => false,
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
       ]),
       new \Twig_SimpleFunction('place_node', [$this, 'place_node'], [
         'is_safe' => ['html'],
-        'needs_environment' => true,
-        'needs_context' => true,
+        'needs_environment' => TRUE,
+        'needs_context' => TRUE,
       ]),
       new \Twig_SimpleFunction('place_view', [$this, 'place_view'], [
         'is_safe' => ['html'],
-        'needs_environment' => false,
-        'needs_context' => false,
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
       ]),
       new \Twig_SimpleFunction('get_theme_url', [$this, 'get_theme_url'], [
-        'needs_environment' => true,
-        'needs_context' => true,
+        'needs_environment' => TRUE,
+        'needs_context' => TRUE,
       ]),
       new \Twig_SimpleFunction('get_taxonomy_terms', [$this, 'get_taxonomy_terms'], [
-        'needs_environment' => true,
-        'needs_context' => true,
+        'needs_environment' => TRUE,
+        'needs_context' => TRUE,
       ]),
       new \Twig_SimpleFunction('get_active_theme', [$this, 'get_active_theme'], [
-        'needs_environment' => true,
-        'needs_context' => true,
+        'needs_environment' => TRUE,
+        'needs_context' => TRUE,
       ]),
       new \Twig_SimpleFunction('get_image_path', [$this, 'get_image_path'], [
-        'needs_environment' => true,
-        'needs_context' => true,
+        'needs_environment' => TRUE,
+        'needs_context' => TRUE,
       ]),
       new \Twig_SimpleFunction('get_path_segment', [$this, 'get_path_segment'], [
-        'needs_environment' => false,
-        'needs_context' => false,
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
       ]),
       new \Twig_SimpleFunction('get_current_path', [$this, 'get_current_path'], [
-        'needs_environment' => false,
-        'needs_context' => false,
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
       ]),
       new \Twig_SimpleFunction('get_theme_setting', [$this, 'get_theme_setting'], [
-        'needs_environment' => false,
-        'needs_context' => false,
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
       ]),
       new \Twig_SimpleFunction('get_variable', [$this, 'get_variable'], [
-        'needs_environment' => false,
-        'needs_context' => false,
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
       ]),
       new \Twig_SimpleFunction('place_paragraphs', [$this, 'place_paragraphs'], [
-        'needs_environment' => false,
-        'needs_context' => false,
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
       ]),
       new \Twig_SimpleFunction('dd', [$this, 'dd'], [
-        'needs_environment' => false,
-        'needs_context' => false,
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
       ]),
       new \Twig_SimpleFunction('get_first_instance', [$this, 'get_first_instance'], [
-        'needs_environment' => false,
-        'needs_context' => false,
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
       ]),
       new \Twig_SimpleFunction('safe_merge', [$this, 'safe_merge'], [
-        'needs_environment' => false,
-        'needs_context' => false,
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
       ]),
       new \Twig_SimpleFunction('get_node', [$this, 'get_node'], [
-        'needs_environment' => false,
-        'needs_context' => false,
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
       ]),
       new \Twig_SimpleFunction('set_meta', [$this, 'set_meta'], [
-        'needs_environment' => false,
-        'needs_context' => false,
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
       ]),
       new \Twig_SimpleFunction('get_root', [$this, 'get_root'], [
-        'needs_environment' => false,
-        'needs_context' => false,
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
       ]),
       new \Twig_SimpleFunction('get_node_path', [$this, 'get_node_path'], [
-        'needs_environment' => false,
-        'needs_context' => false,
+        'needs_environment' => FALSE,
+        'needs_context' => FALSE,
       ]),
     ];
   }
-  
+
   /**
    * Return a path alias from a node ID.
    */
   public function get_node_path($nid) {
-    return \Drupal::service('path.alias_manager')->getAliasByPath('/node/'.$nid);
+    return \Drupal::service('path.alias_manager')->getAliasByPath('/node/' . $nid);
   }
 
   /**
@@ -189,7 +198,7 @@ class TwigExtension extends \Twig_Extension {
   }
 
   /**
-   * Places a content block
+   * Places a content block.
    *
    * @param Twig_Environment $env
    *   The twig environment instance.
@@ -197,16 +206,16 @@ class TwigExtension extends \Twig_Extension {
    *   An array of parameters passed to the template.
    */
   public function place_block(\Twig_Environment $env, array $context, $block_name) {
-    $render = false;
-    // try to load as plugin block
+    $render = FALSE;
+    // Try to load as plugin block.
     $plugin_block = \Drupal::service('plugin.manager.block')->createInstance($block_name, $config = []);
-    if(!empty($plugin_block) && $plugin_block->getPluginId() != 'broken') {
+    if (!empty($plugin_block) && $plugin_block->getPluginId() != 'broken') {
       $render = $plugin_block->build();
     }
-    // get as entity block
+    // Get as entity block.
     else {
-      $block = \Drupal\block\Entity\Block::load($block_name);
-      if(!empty($block)) {
+      $block = Block::load($block_name);
+      if (!empty($block)) {
         $render = \Drupal::entityTypeManager()->getViewBuilder('block')->view($block);
       }
     }
@@ -214,7 +223,7 @@ class TwigExtension extends \Twig_Extension {
   }
 
   /**
-   * Places a form
+   * Places a form.
    *
    * @param Twig_Environment $env
    *   The twig environment instance.
@@ -225,6 +234,9 @@ class TwigExtension extends \Twig_Extension {
     return \Drupal::formBuilder()->getForm($form_name);
   }
 
+  /**
+   *
+   */
   public function place_node(\Twig_Environment $env, array $context, $node_id, $node_view = 'full') {
     $node = entity_load('node', $node_id);
     if (empty($node)) {
@@ -234,16 +246,17 @@ class TwigExtension extends \Twig_Extension {
       return node_view($node, $node_view);
     }
   }
-  
+
   /**
    * Place a Webform submission form.
    */
   public function place_webform($webform_name) {
-    if(\Drupal::moduleHandler()->moduleExists('webform')) {
+    if (\Drupal::moduleHandler()->moduleExists('webform')) {
       $webform = \Drupal::entityTypeManager()->getStorage('webform')->load($webform_name);
       $webform = $webform->getSubmissionForm();
-    } else {
-      $webform = null;
+    }
+    else {
+      $webform = NULL;
     }
 
     return $webform;
@@ -258,37 +271,38 @@ class TwigExtension extends \Twig_Extension {
     $params = array_merge([$name, $display_id], $args);
     $view = call_user_func_array('views_embed_view', $params);
 
-    if(! is_null($view)) {
+    if (!is_null($view)) {
       $drupal = \Drupal::service('renderer');
       return $drupal->render($view);
     }
 
-    return null;
+    return NULL;
   }
 
   /**
    * Gets the current theme URL.
    */
   public function get_theme_url() {
-    return '/'.\Drupal::theme()->getActiveTheme()->getPath();
+    return '/' . \Drupal::theme()->getActiveTheme()->getPath();
   }
 
   /**
    * Slugifies a string.
-   * Inspiration from https://gist.github.com/boboldehampsink/7354431
+   * Inspiration from https://gist.github.com/boboldehampsink/7354431.
    */
   public function slugify($slug) {
-    // Check if path auto is installed
-    if(\Drupal::moduleHandler()->moduleExists('pathauto')) {
+    // Check if path auto is installed.
+    if (\Drupal::moduleHandler()->moduleExists('pathauto')) {
       $slug = \Drupal::service('pathauto.alias_cleaner')->cleanString($slug);
-    } else {
-      // Remove HTML tags
+    }
+    else {
+      // Remove HTML tags.
       $slug = preg_replace('/<(.*?)>/u', '', $slug);
 
       // Remove inner-word punctuation.
       $slug = preg_replace('/[\'"‘’“”]/u', '', $slug);
 
-      // Make it lowercase
+      // Make it lowercase.
       $slug = mb_strtolower($slug, 'UTF-8');
 
       // Get the "words".  Split on anything that is not a unicode letter or number.
@@ -320,7 +334,7 @@ class TwigExtension extends \Twig_Extension {
   /**
    * Returns an array of taxonomy term names and IDs from a taxonomy vocabulary name.
    */
-  public function get_taxonomy_terms(\Twig_Environment $env, array $context, $taxonomy_name, array $other_fields = null) {
+  public function get_taxonomy_terms(\Twig_Environment $env, array $context, $taxonomy_name, array $other_fields = NULL) {
     $query = \Drupal::entityQuery('taxonomy_term')
       ->condition('vid', $taxonomy_name);
     $tids = $query->execute();
@@ -332,15 +346,15 @@ class TwigExtension extends \Twig_Extension {
     $taxonomy_array = [];
 
     $i = 0;
-    foreach($taxonomy_terms as $term) {
+    foreach ($taxonomy_terms as $term) {
       $taxonomy_array[$i] = [
         'tid' => $term->get('tid')->value,
         'name' => $term->get('name')->value,
       ];
 
       // Add extra fields if supplied.
-      if(! is_null($other_fields)) {
-        foreach($other_fields as $field) {
+      if (!is_null($other_fields)) {
+        foreach ($other_fields as $field) {
           $taxonomy_array[$i][$field] = $term->get($field)->value;
         }
       }
@@ -352,61 +366,61 @@ class TwigExtension extends \Twig_Extension {
   }
 
   /**
-   * Returns active theme name
+   * Returns active theme name.
    */
   public function get_active_theme(\Twig_Environment $env, array $context) {
     return \Drupal::theme()->getActiveTheme()->getName();
   }
 
   /**
-   * Returns image path, optionally for a specific image size
+   * Returns image path, optionally for a specific image size.
    */
-  public function get_image_path(\Twig_Environment $env, array $context, $image, $style=false) {
+  public function get_image_path(\Twig_Environment $env, array $context, $image, $style = FALSE) {
 
-    // Check if $image is present
-    if(is_null($image)) {
-      return false;
+    // Check if $image is present.
+    if (is_null($image)) {
+      return FALSE;
     }
 
-    // have we been passed the file id?
-    if(is_numeric($image) && (int) $image > 0) {
+    // Have we been passed the file id?
+    if (is_numeric($image) && (int) $image > 0) {
       $file = File::load($image);
     }
-    // have we only got an array with image target_id?
-    elseif(is_array($image) && !empty($image['target_id'])) {
+    // Have we only got an array with image target_id?
+    elseif (is_array($image) && !empty($image['target_id'])) {
       $file = File::load($image['target_id']);
     }
-    // we've got an object
+    // we've got an object.
     else {
-      // Object structure different, depending on if node.field_name, content.field_name or row._entity.field_name is passed
-      if(is_array($image) && isset($image['#items'])) {
+      // Object structure different, depending on if node.field_name, content.field_name or row._entity.field_name is passed.
+      if (is_array($image) && isset($image['#items'])) {
         $image = $image['#items'];
       }
-      elseif(is_array($image) && isset($image['#item'])) {
+      elseif (is_array($image) && isset($image['#item'])) {
         $image = $image['#item'];
       }
 
-      // Check $image->entity is set
-      if(!isset($image->entity)) {
-        return false;
+      // Check $image->entity is set.
+      if (!isset($image->entity)) {
+        return FALSE;
       }
       else {
         $file = $image->entity;
       }
     }
 
-    // we've got a valid image file
-    if(!empty($file)) {
-      // return original image file
-      if(!$style) {
+    // we've got a valid image file.
+    if (!empty($file)) {
+      // Return original image file.
+      if (!$style) {
         return $file->url();
       }
-      // return specific image size
+      // Return specific image size.
       else {
         $image_style = ImageStyle::load($style);
 
-        // if the image style doesn't exist, return the normal image
-        if(is_null($image_style)) {
+        // If the image style doesn't exist, return the normal image.
+        if (is_null($image_style)) {
           return $file->url();
         }
 
@@ -414,31 +428,35 @@ class TwigExtension extends \Twig_Extension {
       }
     }
     else {
-      return false;
+      return FALSE;
     }
   }
 
   /**
    * Get path segment from current request.
-   * @param int $segment - starting from 1 being the first section of the url after the first forward slash
-   * @param bool $underscores - convert dashes to underscores
+   *
+   * @param int $segment
+   *   - starting from 1 being the first section of the url after the first forward slash.
+   * @param bool $underscores
+   *   - convert dashes to underscores.
+   *
    * @return string of path segment or null
    */
-  public function get_path_segment($segment, $underscores = false) {
-    // Reduce segment index by 1 to account for array key starting with 0
+  public function get_path_segment($segment, $underscores = FALSE) {
+    // Reduce segment index by 1 to account for array key starting with 0.
     $segment--;
     $path = \Drupal::request()->getPathInfo();
     $segments = explode('/', trim($path, '/'));
 
-    if(isset($segments[$segment])) {
-      if($underscores) {
+    if (isset($segments[$segment])) {
+      if ($underscores) {
         return str_replace('-', '_', $segments[$segment]);
       }
 
       return $segments[$segment];
     }
     else {
-      return null;
+      return NULL;
     }
   }
 
@@ -469,20 +487,20 @@ class TwigExtension extends \Twig_Extension {
   /**
    * Return a rendered 'Paragraphs' field.
    */
-  public function place_paragraphs($field_name, $node = null) {
+  public function place_paragraphs($field_name, $node = NULL) {
 
     // Check if the 'Paragraphs' module exists.
-    if(! \Drupal::moduleHandler()->moduleExists('paragraphs')) {
-      return false;
+    if (!\Drupal::moduleHandler()->moduleExists('paragraphs')) {
+      return FALSE;
     }
 
     // If $node isn't passed, let's try and get it ourselves.
-    if($node === null) {
+    if ($node === NULL) {
       $node = \Drupal::routeMatch()->getParameter('node');
     }
 
     if ($node) {
-      if($node->hasField($field_name)) {
+      if ($node->hasField($field_name)) {
         $field_definitions = $node->getFieldDefinitions();
         $field_config = $field_definitions[$field_name];
 
@@ -494,13 +512,13 @@ class TwigExtension extends \Twig_Extension {
           'third_party_settings' => [],
         ];
 
-        $formatter = \Drupal\entity_reference_revisions\Plugin\Field\FieldFormatter\EntityReferenceRevisionsEntityFormatter::create(\Drupal::getContainer(), $config, NULL, NULL);
+        $formatter = EntityReferenceRevisionsEntityFormatter::create(\Drupal::getContainer(), $config, NULL, NULL);
 
         // Required by EntityReferenceFormatterBase
         // getEntitiesToView(EntityReferenceFieldItemListInterface $items, $langcode)
         $parts = $node->get($field_name);
         foreach ($parts as $delta => $item) {
-          $item->_loaded = true;
+          $item->_loaded = TRUE;
         }
 
         $language_manager = \Drupal::service('language_manager');
@@ -515,14 +533,14 @@ class TwigExtension extends \Twig_Extension {
   /**
    * More efficient than kint(), and will exit script.
    */
-  public function dd($data, $exit = true) {
+  public function dd($data, $exit = TRUE) {
     echo dump($data);
 
-    if($exit) {
+    if ($exit) {
       return exit;
     }
 
-    return false;
+    return FALSE;
   }
 
   /**
@@ -530,49 +548,49 @@ class TwigExtension extends \Twig_Extension {
    */
   public function get_first_instance($fields, $rows) {
 
-    if(empty($rows)) {
-      return null;
+    if (empty($rows)) {
+      return NULL;
     }
 
-    foreach($rows[0]['#rows'] as $row) {
+    foreach ($rows[0]['#rows'] as $row) {
       $entity = $row['#row']->_entity;
 
-      foreach($fields as $field) {
-        if($entity->hasField($field)) {
+      foreach ($fields as $field) {
+        if ($entity->hasField($field)) {
           $value = $entity->get($field)->getValue();
 
-          if(! empty($value)) {
+          if (!empty($value)) {
             return $value;
           }
         }
       }
     }
-    return null;
+    return NULL;
   }
 
-  /*
-   * Html entity decode the passed string
+  /**
+   * Html entity decode the passed string.
    */
   public function unescape($html) {
-      return html_entity_decode($html);
+    return html_entity_decode($html);
   }
 
-  /*
-   * Merges arrays or objects - source object / array is appended to destination object / array
-  */
+  /**
+   * Merges arrays or objects - source object / array is appended to destination object / array.
+   */
   public function safe_merge($destination, $source) {
 
-    if(!is_object($source)) {
+    if (!is_object($source)) {
       $source = (object) $source;
     }
     $object_properties = get_object_vars($source);
-    if(is_object($destination)) {
-      foreach($object_properties as $property => $value) {
+    if (is_object($destination)) {
+      foreach ($object_properties as $property => $value) {
         $destination->{$property} = $value;
       }
     }
     else {
-      foreach($object_properties as $property => $value) {
+      foreach ($object_properties as $property => $value) {
         $destination[$property] = $value;
       }
     }
@@ -589,12 +607,12 @@ class TwigExtension extends \Twig_Extension {
   /**
    * Set meta tags.
    */
-  public function set_meta($attributes, $id = null) {
+  public function set_meta($attributes, $id = NULL) {
 
-    if(is_null($id)) {
+    if (is_null($id)) {
       $id = uniqid();
     }
-    
+
     $meta = [
       '#tag' => 'meta',
       '#attributes' => $attributes,
@@ -605,6 +623,7 @@ class TwigExtension extends \Twig_Extension {
     $drupal = \Drupal::service('renderer');
     $drupal->render($html_head);
 
-    return true;
+    return TRUE;
   }
+
 }
