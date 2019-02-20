@@ -43,6 +43,7 @@ The following Twig extensions are provided:
  - `place_webform(string $webform_name)`: Renders the passed webform.
  - `place_node(int $node_id, string $display_type)`: Renders the passed node identifier and display type.
  - `place_view(string $view_name, int $display_id)`: Renders the passed view name and display identifier.
+ - `place_menu(string $menu_name, int $min_depth, int $max_depth, string $theme)`: Renders the passed menu, with an optional min and max depth, as well as a theme (Twig template).
  - `get_taxonomy_terms(string $taxonomy_name, array $extra_fields)`: Returns an array of taxonomy terms from a taxonomy vocabulary name. You may also pass an array of the names of extra fields to pull through.
  - `get_active_theme()`: Returns the active theme name.
  - `get_image_path(string $image, string $style)`: Returns the image path for the passed image field, optionally for a specific image style.
