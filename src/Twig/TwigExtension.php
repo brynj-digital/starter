@@ -173,11 +173,21 @@ class TwigExtension extends \Twig_Extension {
    * @param array $context
    *   An array of parameters passed to the template.
    */
-  public function place_menu(\Twig_Environment $env, array $context, $menu_name) {
+  public function place_menu(\Twig_Environment $env, array $context, $menu_name, $min_depth = NULL, $max_depth = NULL, $theme = NULL) {
     $menu_tree = \Drupal::menuTree();
 
     // Build the typical default set of menu tree parameters.
     $parameters = $menu_tree->getCurrentRouteMenuTreeParameters($menu_name);
+
+    // Min depth passed?
+    if (!is_null($min_depth)) {
+      $parameters->setMinDepth($min_depth);
+    }
+
+    // Max depth passed?
+    if (!is_null($max_depth)) {
+      $parameters->setMaxDepth($max_depth);
+    }
 
     // Load the tree based on this set of parameters.
     $tree = $menu_tree->load($menu_name, $parameters);
@@ -189,12 +199,20 @@ class TwigExtension extends \Twig_Extension {
       // Use the default sorting of menu links.
       ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
     ];
+
     $tree = $menu_tree->transform($tree, $manipulators);
 
     // Finally, build a renderable array from the transformed tree.
     $menu = $menu_tree->build($tree);
 
-    return ['#markup' => drupal_render($menu)];
+    // Custom theme passed?
+    if (!is_null($theme) && isset($menu['#theme'])) {
+      $menu['#theme'] = $menu['#theme'] . '_' . $theme;
+    }
+
+    return [
+      '#markup' => drupal_render($menu),
+    ];
   }
 
   /**
